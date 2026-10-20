@@ -1,7 +1,6 @@
 package tests;
 import experiment.TestBoard;
 import experiment.TestBoardCell;
-import junit.framework.Assert;
 
 import java.util.Set;
 
@@ -195,6 +194,10 @@ public class BoardTestsExp {
 		board.calcTargets(cell, 1);
 		assertTrue(targets.contains(board.getCell(1, 0)));
 		assertFalse(targets.contains(board.getCell(0, 1)));
+		
+		//reset rooms
+		board.getCell(1, 0).setRoom(false);
+		board.getCell(0, 1).setOccupied(false);
 		
 		//0,0 roll 6
 		board.getCell(1, 1).setRoom(true);

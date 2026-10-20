@@ -14,7 +14,7 @@ public class TestBoardCell {
 	}
 	
 	public void addAdjacency(TestBoardCell cell) {
-		
+		this.adjList.add(cell);
 	}
 	
 	public Set<TestBoardCell> getAdjList() {
@@ -22,7 +22,7 @@ public class TestBoardCell {
 	}
 	
 	public void setRoom(boolean i) {
-		
+		this.isRoom = i;
 	}
 	
 	public boolean isRoom() {
@@ -30,7 +30,7 @@ public class TestBoardCell {
 	}
 	
 	public void setOccupied(boolean i) {
-		
+		isOccupied = i;
 	}
 	
 	public boolean getOccupied() {
