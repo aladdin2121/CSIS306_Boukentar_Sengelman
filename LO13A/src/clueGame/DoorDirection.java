@@ -15,15 +15,21 @@
 
 package clueGame;
 
-public enum DoorDirection { UP('^'), DOWN ('v'), LEFT ('<'), RIGHT ('>'), NONE(' ');
+public enum DoorDirection { UP('^'), DOWN ('v'), LEFT ('<'), RIGHT ('>'), NONE;
 	private char sign;
 	
 	private DoorDirection (char sign) {
 		this.sign = sign;
 	}
+	private DoorDirection() {
+		this.sign = '\0';
+	}
 	@Override
 	
 	public String toString(){
+		if (this.sign == '\0') {
+			return "NONE";
+		}
 		return this.name();
 	}
 	

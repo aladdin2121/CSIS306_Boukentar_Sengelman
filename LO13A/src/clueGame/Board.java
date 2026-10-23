@@ -11,7 +11,7 @@ import java.util.Set;
 
 public class Board {
 	final static int NUM_ROWS = 25;
-	final static int NUM_COLUMNS = 24;
+	final static int NUM_COLUMNS = 25;
 	
 	private BoardCell[][] cellGrid;
 	private Set<BoardCell> targets;
@@ -70,37 +70,8 @@ public class Board {
 	}
 	public void initialize() {
 		
-		int i =0;
-		try {
-		File file = new File(this.setupConfigFile);
-		Scanner scan = new Scanner (file);
-		
-		while(scan.hasNext()) {
-			String line = scan.nextLine();
-			String[] tokens = line.split(", ");
-			if (tokens[0].equalsIgnoreCase("room")){
-				String roomName = tokens[1];
-				char roomChar = tokens[2].charAt(0);
-				Room r1 = new Room (roomName);
-				room.put(roomChar, r1);
-				System.out.println(i);
-				i++;
-			}
-			//split the 2 kind of spaces, in case we want to make walkways and 
-			//unused their own object and not a room object
-			else if (tokens[0].equalsIgnoreCase("space")){
-				String roomName = tokens[1];
-				char roomChar = tokens[2].charAt(0);
-				Room r1 = new Room (roomName);
-				room.put(roomChar, r1);
-				
-			}
-		}
-		System.out.println("loaded the file");
-		}
-		catch(FileNotFoundException e) {
-			System.out.println(e.getMessage());
-		}
+		setUpConfig();
+		layOutConfig();
 		
 		
 		
@@ -137,6 +108,42 @@ public class Board {
 	}
 	public int getNumColumns() {
 		return this.NUM_COLUMNS;
+	}
+	//reading clueConfig.txt and loading rooms
+	private void setUpConfig() {
+		
+		try {
+		File file = new File(this.setupConfigFile);
+		Scanner scan = new Scanner (file);
+		
+		while(scan.hasNext()) {
+			String line = scan.nextLine();
+			String[] tokens = line.split(", ");
+			if (tokens[0].equalsIgnoreCase("room")){
+				String roomName = tokens[1];
+				char roomChar = tokens[2].charAt(0);
+				Room r1 = new Room (roomName);
+				room.put(roomChar, r1);
+				
+			}
+			//split the 2 kind of spaces, in case we want to make walkways and 
+			//unused their own object and not a room object
+			else if (tokens[0].equalsIgnoreCase("space")){
+				String roomName = tokens[1];
+				char roomChar = tokens[2].charAt(0);
+				Room r1 = new Room (roomName);
+				room.put(roomChar, r1);
+				
+			}
+		}
+		}
+		catch(FileNotFoundException e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	private void layOutConfig() {
+		
+		
 	}
 
 }
