@@ -24,6 +24,7 @@ public enum DoorDirection { UP('^'), DOWN ('v'), LEFT ('<'), RIGHT ('>'), NONE;
 	private DoorDirection() {
 		this.sign = '\0';
 	}
+	
 	@Override
 	
 	public String toString(){

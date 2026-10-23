@@ -10,8 +10,8 @@ import java.util.Set;
 
 
 public class Board {
-	final static int NUM_ROWS = 25;
-	final static int NUM_COLUMNS = 25;
+	final static int NUM_ROWS = 24;
+	final static int NUM_COLUMNS = 24;
 	
 	private BoardCell[][] cellGrid;
 	private Set<BoardCell> targets;
@@ -138,12 +138,49 @@ public class Board {
 		}
 		}
 		catch(FileNotFoundException e) {
-			System.out.println(e.getMessage());
+			System.out.println(".txt file not found "+e.getMessage());
 		}
 	}
 	private void layOutConfig() {
+		try {
+		File file = new File(this.layoutConfigFile);
+		Scanner scan = new Scanner (file);
+		int i =0;
+		while(scan.hasNext()) {
+		String line = scan.nextLine().trim();
 		
+				
+			String[] tokens = line.split(",");
+			for (int j=0;j<NUM_COLUMNS;j++) {
+				if (tokens.length!=NUM_COLUMNS) {
+					System.out.println("number of colomns do not match");
+					break;
+				}
+				if (room.containsKey(tokens[j].charAt(0))) {
+					cellGrid[i][j].setRoom(true);
+				}
+				if(tokens[j].length()>1) {
+						
+					
+					if(tokens[j].charAt(1)=='v'){cellGrid[i][j].setDirection(DoorDirection.DOWN);cellGrid[i][j].setIsDoorWay(true);}
+					else if(tokens[j].charAt(1)=='>'){cellGrid[i][j].setDirection(DoorDirection.RIGHT);cellGrid[i][j].setIsDoorWay(true);}
+					else if(tokens[j].charAt(1)=='<'){cellGrid[i][j].setDirection(DoorDirection.LEFT);cellGrid[i][j].setIsDoorWay(true);}
+					else if(tokens[j].charAt(1)=='^'){cellGrid[i][j].setDirection(DoorDirection.UP);cellGrid[i][j].setIsDoorWay(true);}
+							
+							
+					}
+				else {
+					cellGrid[i][j].setIsDoorWay(false);
+				}
+				}
+						
+			i++;
+		}
 		
+		}
+		catch(FileNotFoundException e) {
+			System.out.println(".cvs file not found "+e.getMessage());
+		}
 	}
 
 }
