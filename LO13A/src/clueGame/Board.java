@@ -10,8 +10,8 @@ import java.util.Set;
 
 
 public class Board {
-	final static int NUM_ROWS = 4;
-	final static int NUM_COLUMNS = 4;
+	final static int NUM_ROWS = 25;
+	final static int NUM_COLUMNS = 24;
 	
 	private BoardCell[][] cellGrid;
 	private Set<BoardCell> targets;
@@ -131,6 +131,12 @@ public class Board {
 	
 	public Set<BoardCell> getTargets() {
 		return targets;
+	}
+	public int getNumRows() {
+		return this.NUM_ROWS;
+	}
+	public int getNumColumns() {
+		return this.NUM_COLUMNS;
 	}
 
 }
