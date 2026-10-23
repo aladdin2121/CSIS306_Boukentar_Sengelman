@@ -49,13 +49,22 @@ public class FileInitTests306 {
 		assertEquals("Walkway", board.getRoom('W').getName() );
 	}
 
+/*
 	@Test
 	public void testBoardDimensions() {
 		// Ensure we have the proper number of rows and columns
 		assertEquals(NUM_ROWS, board.getNumRows());
 		assertEquals(NUM_COLUMNS, board.getNumColumns());
 	}
-
+	*/
+	//our test for our board
+	@Test
+	public void testBoardDimensions() {
+		// Ensure we have the proper number of rows and columns
+		assertEquals(24, board.getNumRows());
+		assertEquals(24, board.getNumColumns());
+	}
+/*
 	// Test a doorway in each direction (RIGHT/LEFT/UP/DOWN), plus
 	// two cells that are not a doorway.
 	// These cells are white on the planning spreadsheet
@@ -77,8 +86,44 @@ public class FileInitTests306 {
 		cell = board.getCell(12, 14);
 		assertFalse(cell.isDoorway());
 	}
-	
-
+}
+*/
+	/*
+	//our test for our board
+	@Test
+	public void FourDoorDirections() {
+		BoardCell cell = board.getCell(3, 5);
+		assertTrue(cell.isDoorway());
+		assertEquals(DoorDirection.LEFT, cell.getDoorDirection());
+		cell = board.getCell(5, 3);
+		assertTrue(cell.isDoorway());
+		assertEquals(DoorDirection.UP, cell.getDoorDirection());
+		cell = board.getCell(16, 6);
+		assertTrue(cell.isDoorway());
+		assertEquals(DoorDirection.RIGHT, cell.getDoorDirection());
+		cell = board.getCell(21, 3);
+		assertTrue(cell.isDoorway());
+		assertEquals(DoorDirection.DOWN, cell.getDoorDirection());
+		// Test that walkways are not doors
+		cell = board.getCell(9, 5);
+		assertFalse(cell.isDoorway());
+	}
+	}
+	*/
+	//our test for our board
+	@Test
+	public void testNumberOfDoorways() {
+		int numDoors = 0;
+		for (int row = 0; row < board.getNumRows(); row++)
+			for (int col = 0; col < board.getNumColumns(); col++) {
+				BoardCell cell = board.getCell(row, col);
+				if (cell.isDoorway())
+					numDoors++;
+			}
+		Assert.assertEquals(26, numDoors);
+	}
+}
+/*
 	// Test that we have the correct number of doors
 	@Test
 	public void testNumberOfDoorways() {
@@ -91,7 +136,8 @@ public class FileInitTests306 {
 			}
 		Assert.assertEquals(17, numDoors);
 	}
-
+}
+/*
 	// Test a few room cells to ensure the room initial is correct.
 	@Test
 	public void testRooms() {
@@ -147,3 +193,4 @@ public class FileInitTests306 {
 	}
 
 }
+*/

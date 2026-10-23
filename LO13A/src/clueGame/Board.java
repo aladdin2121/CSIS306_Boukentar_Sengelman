@@ -158,6 +158,7 @@ public class Board {
 				}
 				if (room.containsKey(tokens[j].charAt(0))) {
 					cellGrid[i][j].setRoom(true);
+					cellGrid[i][j].setDirection(DoorDirection.NONE);
 				}
 				if(tokens[j].length()>1) {
 						
@@ -171,6 +172,7 @@ public class Board {
 					}
 				else {
 					cellGrid[i][j].setIsDoorWay(false);
+					cellGrid[i][j].setDirection(DoorDirection.NONE);
 				}
 				}
 						
