@@ -97,17 +97,7 @@ public class Board {
 		return roomMap.get(c);
 	}
 	public Room getRoom(BoardCell cell) {
-		Room result=null;
-		for (Room r1: roomMap.values()) {
-			if (r1.getCenterCell()!=null && r1.getCenterCell().equals(cell)) {
-				result = r1;
-			}
-			else if (r1.getLabelCell()!=null && r1.getLabelCell().equals(cell)) {
-				result = r1;
-			}
-			
-		}
-		return result;
+		return cell.getRoom();
 	}
 	public BoardCell getCell(int row, int col) {
 		return cellGrid[row][col];
@@ -172,10 +162,13 @@ public class Board {
 				if (roomMap.containsKey(tokens[j].charAt(0))) {
 					cellGrid[i][j].setRoom(true);
 					
+					Room currentRoom = roomMap.get(tokens[j].charAt(0));
+					cellGrid[i][j].setRoom(currentRoom);
+					
 					cellGrid[i][j].setDirection(DoorDirection.NONE);
 					if(tokens[j].length()>1) {
-						if(tokens[j].charAt(1)=='#') {cellGrid[i][j].setRoomLabel(true);roomMap.get(tokens[j].charAt(0)).setLabelCell(cellGrid[i][j]);}
-						if(tokens[j].charAt(1)=='*') {cellGrid[i][j].setRoomCenter(true);roomMap.get(tokens[j].charAt(0)).setCenterCell(cellGrid[i][j]);}
+						if(tokens[j].charAt(1)=='#') {cellGrid[i][j].setRoomLabel(true);currentRoom.setLabelCell(cellGrid[i][j]);}
+						if(tokens[j].charAt(1)=='*') {cellGrid[i][j].setRoomCenter(true);currentRoom.setCenterCell(cellGrid[i][j]);}
 					}
 				}
 				if(tokens[j].length()>1) {

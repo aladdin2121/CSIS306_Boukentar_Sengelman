@@ -7,6 +7,7 @@ public class BoardCell {
 	private Set<BoardCell> adjList = new HashSet<>();
 	private boolean isRoom, isOccupied, isDoorway,roomCenter, roomLabel;
 	DoorDirection direction;
+	private Room room;
 	
 	
 	public BoardCell(int row, int col) {
@@ -77,5 +78,12 @@ public class BoardCell {
 	}
 	public boolean isLabel() {
 		return this.roomLabel;
+	}
+	public void setRoom(Room room) {
+	    this.room = room;
+	}
+
+	public Room getRoom() {
+	    return room;
 	}
 }
