@@ -96,6 +96,19 @@ public class Board {
 	public Room getRoom(char c) {
 		return room.get(c);
 	}
+	public Room getRoom(BoardCell cell) {
+		Room result=null;
+		for (Room r1: room.values()) {
+			if (r1.getCenterCell()!=null & r1.getCenterCell().equals(cell)) {
+				result = r1;
+			}
+			else if (r1.getLabelCell()!=null & r1.getLabelCell().equals(cell)) {
+				result = r1;
+			}
+			
+		}
+		return result;
+	}
 	public BoardCell getCell(int row, int col) {
 		return cellGrid[row][col];
 	}
@@ -158,7 +171,12 @@ public class Board {
 				}
 				if (room.containsKey(tokens[j].charAt(0))) {
 					cellGrid[i][j].setRoom(true);
+					
 					cellGrid[i][j].setDirection(DoorDirection.NONE);
+					if(tokens[j].length()>1) {
+						if(tokens[j].charAt(1)=='#') {cellGrid[i][j].setRoomLabel(true);room.get(tokens[j].charAt(0)).setLabelCell(cellGrid[i][j]);}
+						if(tokens[j].charAt(1)=='*') {cellGrid[i][j].setRoomCenter(true);room.get(tokens[j].charAt(0)).setCenterCell(cellGrid[i][j]);}
+					}
 				}
 				if(tokens[j].length()>1) {
 						
@@ -171,7 +189,7 @@ public class Board {
 							
 					}
 				else {
-					cellGrid[i][j].setIsDoorWay(false);
+					
 					cellGrid[i][j].setDirection(DoorDirection.NONE);
 				}
 				}

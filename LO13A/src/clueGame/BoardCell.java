@@ -5,22 +5,33 @@ import java.util.Set;
 public class BoardCell {
 	private int col, row;
 	private Set<BoardCell> adjList = new HashSet<>();
-	private boolean isRoom, isOccupied, isDoorway;
+	private boolean isRoom, isOccupied, isDoorway,roomCenter, roomLabel;
 	DoorDirection direction;
 	
 	
 	public BoardCell(int row, int col) {
 		this.col = col;
 		this.row = row;
+		isRoom = false;
+		isOccupied =false; 
+		isDoorway = false;
+		roomCenter =false; 
+		roomLabel = false;
 	}
 	
-	
+	public int getRow() {
+		return row;
+	}
+	public int getCol() {
+		return col;
+	}
 	
 	
 	public void addAdjacency(BoardCell cell) {
 		this.adjList.add(cell);
 		
 	}
+
 	
 	public Set<BoardCell> getAdjList() {
 		return adjList;
@@ -54,5 +65,17 @@ public class BoardCell {
 	}
 	public DoorDirection getDoorDirection() {
 		return this.direction;
+	}
+	public void setRoomCenter(boolean center) {
+		this.roomCenter = center; 
+	}
+	public boolean isRoomCenter() {
+		return this.roomCenter;
+	}
+	public void setRoomLabel(boolean label) {
+		this.roomLabel= label;
+	}
+	public boolean isLabel() {
+		return this.roomLabel;
 	}
 }
