@@ -17,7 +17,7 @@ public class Board {
 	private Set<BoardCell> targets;
 	private Set<BoardCell> visited;
 	
-	private Map<Character, Room> room;
+	private Map<Character, Room> roomMap;
 	private String layoutConfigFile;
 	private String setupConfigFile;
 	/*
@@ -30,7 +30,7 @@ public class Board {
             super() ;
             targets = new HashSet<>();
     		visited = new HashSet<>();
-    		room = new HashMap<>();
+    		roomMap = new HashMap<>();
     		
     		
     		cellGrid = new BoardCell[NUM_ROWS][NUM_COLUMNS];
@@ -94,11 +94,11 @@ public class Board {
 		
 	}
 	public Room getRoom(char c) {
-		return room.get(c);
+		return roomMap.get(c);
 	}
 	public Room getRoom(BoardCell cell) {
 		Room result=null;
-		for (Room r1: room.values()) {
+		for (Room r1: roomMap.values()) {
 			if (r1.getCenterCell()!=null && r1.getCenterCell().equals(cell)) {
 				result = r1;
 			}
@@ -136,7 +136,7 @@ public class Board {
 				String roomName = tokens[1];
 				char roomChar = tokens[2].charAt(0);
 				Room r1 = new Room (roomName);
-				room.put(roomChar, r1);
+				roomMap.put(roomChar, r1);
 				
 			}
 			//split the 2 kind of spaces, in case we want to make walkways and 
@@ -145,7 +145,7 @@ public class Board {
 				String roomName = tokens[1];
 				char roomChar = tokens[2].charAt(0);
 				Room r1 = new Room (roomName);
-				room.put(roomChar, r1);
+				roomMap.put(roomChar, r1);
 				
 			}
 		}
@@ -169,13 +169,13 @@ public class Board {
 					System.out.println("number of colomns do not match");
 					break;
 				}
-				if (room.containsKey(tokens[j].charAt(0))) {
+				if (roomMap.containsKey(tokens[j].charAt(0))) {
 					cellGrid[i][j].setRoom(true);
 					
 					cellGrid[i][j].setDirection(DoorDirection.NONE);
 					if(tokens[j].length()>1) {
-						if(tokens[j].charAt(1)=='#') {cellGrid[i][j].setRoomLabel(true);room.get(tokens[j].charAt(0)).setLabelCell(cellGrid[i][j]);}
-						if(tokens[j].charAt(1)=='*') {cellGrid[i][j].setRoomCenter(true);room.get(tokens[j].charAt(0)).setCenterCell(cellGrid[i][j]);}
+						if(tokens[j].charAt(1)=='#') {cellGrid[i][j].setRoomLabel(true);roomMap.get(tokens[j].charAt(0)).setLabelCell(cellGrid[i][j]);}
+						if(tokens[j].charAt(1)=='*') {cellGrid[i][j].setRoomCenter(true);roomMap.get(tokens[j].charAt(0)).setCenterCell(cellGrid[i][j]);}
 					}
 				}
 				if(tokens[j].length()>1) {
