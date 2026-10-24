@@ -1,0 +1,48 @@
+commit 9d0246e8a85843cc0548e58885eb3fbe8782a23e (HEAD -> main, origin/main, origin/HEAD)
+Merge: e63f759 87679c9
+Author: Sophie Sengelman-Lipps <sophielipps@gmail.com>
+Date:   Mon Oct 19 20:44:26 2026 -0600
+
+    Merge branch 'main' of https://github.com/aladdin2121/CSIS306_Boukentar_Sengelman
+
+commit e63f759adac0d6e21d4e519d710d2208e78bb473
+Author: Sophie Sengelman-Lipps <sophielipps@gmail.com>
+Date:   Mon Oct 19 20:43:28 2026 -0600
+
+    Finished off TestBoard.java and fixed broken test for LO12A
+
+commit 87679c97e7cc3b71bd4b0fb9427a91ce2f144a38
+Author: aladdin2121 <148940370+aladdin2121@users.noreply.github.com>
+Date:   Mon Oct 19 12:49:32 2026 -0600
+
+    Add files via upload
+
+    passed 2 tests
+
+commit d4fbe79197592f3e21b325bf78ff6c58fc3dcc46
+Author: aladdin2121 <aladdinbouk@gmail.com>
+Date:   Mon Oct 19 12:46:02 2026 -0600
+
+    adding the files that passed the 2 first tests
+
+commit dd2f4af7b02e50d290ed86b0233c486cb8dee09a
+Author: aladdin2121 <aladdinbouk@gmail.com>
+
+commit 7f0c4336997fe3ab5342beadff50cefc196769c3 (HEAD -> main, origin/main, origin/HEAD)
+Merge: 469af05 db2b24d
+Author: Sophie Sengelman-Lipps <sophielipps@gmail.com>
+Date:   Wed Oct 14 21:35:56 2026 -0600
+
+    Resolved .gitignore issue
+
+commit 469af050227087a25e59a272120a8d1cfc0ecde9
+Author: Sophie Sengelman-Lipps <sophielipps@gmail.com>
+Date:   Wed Oct 14 21:29:47 2026 -0600
+
+    LO11A Tests and dummy classes
+
+commit db2b24dd18df02d94ee8880b7970b04d0769d150
+Author: aladdin2121 <148940370+aladdin2121@users.noreply.github.com>
+Date:   Wed Oct 14 21:09:20 2026 -0600
+
+    Initial commit
