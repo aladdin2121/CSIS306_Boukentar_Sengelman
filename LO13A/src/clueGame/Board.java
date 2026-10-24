@@ -99,10 +99,10 @@ public class Board {
 	public Room getRoom(BoardCell cell) {
 		Room result=null;
 		for (Room r1: room.values()) {
-			if (r1.getCenterCell()!=null & r1.getCenterCell().equals(cell)) {
+			if (r1.getCenterCell()!=null && r1.getCenterCell().equals(cell)) {
 				result = r1;
 			}
-			else if (r1.getLabelCell()!=null & r1.getLabelCell().equals(cell)) {
+			else if (r1.getLabelCell()!=null && r1.getLabelCell().equals(cell)) {
 				result = r1;
 			}
 			
