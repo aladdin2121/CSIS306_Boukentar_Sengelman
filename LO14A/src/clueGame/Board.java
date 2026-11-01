@@ -373,15 +373,15 @@ public class Board {
 	}
 
 	private void walkWay(int row, int col, BoardCell cell) {
-		if (row > 0 && grid[row - 1][col].getInitial()=='W' ) {
+		if (row > 0 && grid[row - 1][col].getInitial()=='W') {
 			cell.addAdj(grid[row - 1][col]);
 		}
 
-		if (row < numRows - 1 && grid[row + 1][col].getInitial()=='W') {
+		if (row < numRows - 1 && grid[row + 1][col].getInitial()=='W' ) {
 			cell.addAdj(grid[row + 1][col]);
 		}
 
-		if (col > 0 && grid[row][col - 1].getInitial() == 'W') {
+		if (col > 0 && grid[row][col - 1].getInitial() == 'W' ) {
 			cell.addAdj(grid[row][col - 1]);
 		}
 
@@ -413,7 +413,7 @@ public class Board {
 
 		for (BoardCell next : current.getAdjList()) {
 
-			if (visited.contains(next) || next.getOccupied()) {
+			if (visited.contains(next) || (next.getOccupied()&& !next.isRoom())) {
 				continue;
 			}
 
