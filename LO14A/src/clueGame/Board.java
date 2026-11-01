@@ -312,6 +312,9 @@ public class Board {
 
 				BoardCell cell = grid[row][col];
 				
+				//if it is a room cell and not a secret passage we skip. Room center is 
+				//calculated with doorway and secret passage
+				
 				if (cell.isRoom() && !cell.isSecretPass()) {
 					continue;
 				}
@@ -320,15 +323,21 @@ public class Board {
 				//other room center adjacent list
 				if(cell.isSecretPass()) {
 					
-					cell.addAdj(roomMap.get(cell.getInitial()).getCenterCell());
-					roomMap.get(cell.getSecretPassage()).getCenterCell().addAdj(cell);
+					BoardCell current = roomMap.get(cell.getInitial()).getCenterCell();
+					BoardCell destination = roomMap.get(cell.getSecretPassage()).getCenterCell();
+
+					current.addAdj(destination);
+					destination.addAdj(current);
+					
+					
 					
 				}
 				//if it is a doorway, then the adjacent cell is the room center of the room
-				if(cell.isDoorway()) {
+				else if(cell.isDoorway()) {
 					BoardCell roomCell;
 					if(cell.getDoorDirection()== DoorDirection.UP) {
-						roomCell = grid[row-1][col];		
+						roomCell = grid[row-1][col];
+						
 					}
 					else if(cell.getDoorDirection()== DoorDirection.DOWN) {
 						roomCell= grid[row+1][col];
@@ -339,7 +348,11 @@ public class Board {
 					else{
 						roomCell = grid[row][col+1];
 					}
-					cell.addAdj(roomMap.get(roomCell.getInitial()).getCenterCell());
+					
+					BoardCell roomCenter = roomMap.get(roomCell.getInitial()).getCenterCell();
+
+					cell.addAdj(roomCenter);
+					roomCenter.addAdj(cell);
 				}
 				
 				//case of walkways cells
