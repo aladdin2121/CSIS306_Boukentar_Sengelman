@@ -22,7 +22,7 @@ public class BoardCell {
 	private int col, row;
 	private char initial, secretPass;
 	private Set<BoardCell> adjList = new HashSet<>();
-	private boolean isRoom, isOccupied, isDoorway, roomLabel, roomCenter;
+	private boolean isRoom, isOccupied, isDoorway, roomLabel, roomCenter, isSecretPass = false;
 	private DoorDirection direction = DoorDirection.NONE;
 
 	public BoardCell(int row, int col) {
@@ -109,6 +109,10 @@ public class BoardCell {
 
 	public void setSecretPassage(char secretPassage) {
 		this.secretPass = secretPassage;
+		this.isSecretPass = true;
+	}
+	public boolean isSecretPass() {
+		return this.isSecretPass;
 	}
 }
 

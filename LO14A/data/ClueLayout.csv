@@ -1,10 +1,10 @@
-C,C,C,C,C,X,W,Wv,W,W,W,W,Wv,W,X,LC,L,L,L,L,L,L,L,L
+C,C,C,C,CL,X,W,Wv,W,W,W,W,Wv,W,X,LC,L,L,L,L,L,L,L,L
 C,C,C*,C,C,X,W,R,R,R,R,R,X,W,X,X,L,L,L,L,L,L,L,L
 C,C,C#,C,C,W,W,R,R,R,R*,R,R,W,X,L,L,L,L,L*,L,L,L,L
 C,C,C,C,C,W<,W,R,R,R,R#,R,R,W,X,L,L,L,L,L#,L,L,L,L
-X,C,C,C,CD,W,W,R,R,R,R,R,R,W,W>,L,L,L,L,L,L,L,L,L
+X,C,C,C,CD,W,W,R,R,R,R,R,RO,W,W>,L,L,L,L,L,L,L,L,L
 W,W,W,W^,W,W,W,Wv,W^,W,W,W,Wv,W,W>,L,L,L,L,L,L,L,L,L
-X,X,X,X,X,X,W,X,X,X,X,X,X,X,W,LO,L,L,L,L,L,L,L,L
+X,X,X,X,X,X,W,X,X,X,X,X,X,X,W,LO,L,L,L,L,L,L,L,LD
 K,K,K,K,W,X,W,X,X,X,X,X,X,X,W,W,W,W,W^,W,W,W,W,W
 K,K,K*,K,W,X,W,X,X,X,X,X,X,X,W,W,Wv,W,X,X,X,X,X,X
 K,K,K#,K,W<,W,W,X,X,X,X,X,X,X,W,S,S,S,S,S,S,S,S,X

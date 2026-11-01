@@ -311,21 +311,35 @@ public class Board {
 			for (int col = 0; col < numColumns; col++) {
 
 				BoardCell cell = grid[row][col];
-
-				if (row > 0) {
-					cell.addAdj(grid[row - 1][col]);
+				
+				if (cell.isRoom()) {
+					continue;
 				}
-
-				if (row < numRows - 1) {
-					cell.addAdj(grid[row + 1][col]);
+				if(cell.isRoomCenter()) {
+					for (int ro = 0; ro < numRows; ro++) {
+						for (int co = 0; co < numColumns; co++) {
+							if(grid[ro][co].isSecretPass()) {
+								
+							}
+						}
+					}
 				}
-
-				if (col > 0) {
-					cell.addAdj(grid[row][col - 1]);
-				}
-
-				if (col < numColumns - 1) {
-					cell.addAdj(grid[row][col + 1]);
+				else {
+					if (row > 0) {
+						cell.addAdj(grid[row - 1][col]);
+					}
+	
+					if (row < numRows - 1) {
+						cell.addAdj(grid[row + 1][col]);
+					}
+	
+					if (col > 0) {
+						cell.addAdj(grid[row][col - 1]);
+					}
+	
+					if (col < numColumns - 1) {
+						cell.addAdj(grid[row][col + 1]);
+					}
 				}
 			}
 		}
