@@ -337,16 +337,32 @@ public class Board {
 					BoardCell roomCell;
 					if(cell.getDoorDirection()== DoorDirection.UP) {
 						roomCell = grid[row-1][col];
+						if (row < numRows - 1 && grid[row + 1][col].getInitial()=='W') {
+					        
+					        walkWay(row, col, cell);
+					    }
 						
 					}
 					else if(cell.getDoorDirection()== DoorDirection.DOWN) {
 						roomCell= grid[row+1][col];
+						if (row >0 && grid[row - 1][col].getInitial()=='W') {
+					       
+							walkWay(row, col, cell);
+					    }
 					}
 					else if(cell.getDoorDirection()== DoorDirection.LEFT) {
 						roomCell = grid[row][col-1];
+						if (col < numColumns - 1 && grid[row][col+1].getInitial()=='W') {
+					       
+							walkWay(row, col, cell);
+					    }
 					}
 					else{
 						roomCell = grid[row][col+1];
+						if (col >0 && grid[row][col-1].getInitial()=='W') {
+					   
+							walkWay(row, col, cell);
+					    }
 					}
 					
 					BoardCell roomCenter = roomMap.get(roomCell.getInitial()).getCenterCell();
@@ -356,24 +372,28 @@ public class Board {
 				}
 				
 				//case of walkways cells
-				else {
-					if (row > 0 && grid[row - 1][col].getInitial()=='W' ) {
-						cell.addAdj(grid[row - 1][col]);
-					}
-	
-					if (row < numRows - 1 && grid[row + 1][col].getInitial()=='W') {
-						cell.addAdj(grid[row + 1][col]);
-					}
-	
-					if (col > 0 && grid[row][col - 1].getInitial() == 'W') {
-						cell.addAdj(grid[row][col - 1]);
-					}
-	
-					if (col < numColumns - 1 && grid[row][col + 1].getInitial() == 'W') {
-						cell.addAdj(grid[row][col + 1]);
-					}
+				else if (cell.getInitial()=='W'){
+					walkWay(row, col, cell);
 				}
 			}
+		}
+	}
+
+	private void walkWay(int row, int col, BoardCell cell) {
+		if (row > 0 && grid[row - 1][col].getInitial()=='W' ) {
+			cell.addAdj(grid[row - 1][col]);
+		}
+
+		if (row < numRows - 1 && grid[row + 1][col].getInitial()=='W') {
+			cell.addAdj(grid[row + 1][col]);
+		}
+
+		if (col > 0 && grid[row][col - 1].getInitial() == 'W') {
+			cell.addAdj(grid[row][col - 1]);
+		}
+
+		if (col < numColumns - 1 && grid[row][col + 1].getInitial() == 'W') {
+			cell.addAdj(grid[row][col + 1]);
 		}
 	}
 
