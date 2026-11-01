@@ -333,36 +333,29 @@ public class Board {
 					
 				}
 				//if it is a doorway, then the adjacent cell is the room center of the room
+				//and walkways 
 				else if(cell.isDoorway()) {
 					BoardCell roomCell;
 					if(cell.getDoorDirection()== DoorDirection.UP) {
 						roomCell = grid[row-1][col];
-						if (row < numRows - 1 && grid[row + 1][col].getInitial()=='W') {
-					        
-					        walkWay(row, col, cell);
-					    }
+						
+						walkWay(row, col, cell);
 						
 					}
 					else if(cell.getDoorDirection()== DoorDirection.DOWN) {
 						roomCell= grid[row+1][col];
-						if (row >0 && grid[row - 1][col].getInitial()=='W') {
-					       
-							walkWay(row, col, cell);
-					    }
+						
+						walkWay(row, col, cell);
 					}
 					else if(cell.getDoorDirection()== DoorDirection.LEFT) {
 						roomCell = grid[row][col-1];
-						if (col < numColumns - 1 && grid[row][col+1].getInitial()=='W') {
-					       
-							walkWay(row, col, cell);
-					    }
+						
+						walkWay(row, col, cell);
 					}
 					else{
 						roomCell = grid[row][col+1];
-						if (col >0 && grid[row][col-1].getInitial()=='W') {
-					   
-							walkWay(row, col, cell);
-					    }
+						
+						walkWay(row, col, cell);
 					}
 					
 					BoardCell roomCenter = roomMap.get(roomCell.getInitial()).getCenterCell();
