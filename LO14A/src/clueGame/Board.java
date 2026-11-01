@@ -1,3 +1,19 @@
+/*
+ * Class: Board
+ * 
+ * Details:
+ * The board creates a grid of type BoardCell and populates it from a .csv file
+ * it calculates the adjacency of each cell
+ * 
+ * Authors: Alaa Eddine Boukentar Assefar
+ * 			Sophie Sengelmann-Lipps
+ * 
+ * Start Date: 10/17/2026
+ * 
+ * Collaborators: None
+ * 
+ * Sources: None
+ */
 package clueGame;
 
 import java.io.File;
@@ -380,5 +396,8 @@ public class Board {
 
 	public int getNumColumns() {
 		return numColumns;
+	}
+	public Set<BoardCell> getAdjList(int row, int col) {
+		return grid[row][col].getAdjList();
 	}
 }

@@ -1,3 +1,19 @@
+/*
+ * Class: BoardCell
+ * 
+ * Details:
+ * it stores info of boardcell such as the adjacency list and it's location and 
+ * what type of cell it is
+ * 
+ * Authors: Alaa Eddine Boukentar Assefar
+ * 			Sophie Sengelmann-Lipps
+ * 
+ * Start Date: 10/17/2026
+ * 
+ * Collaborators: None
+ * 
+ * Sources: None
+ */
 package clueGame;
 import java.util.HashSet;
 import java.util.Set;
