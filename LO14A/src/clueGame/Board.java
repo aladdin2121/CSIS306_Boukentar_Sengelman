@@ -312,32 +312,51 @@ public class Board {
 
 				BoardCell cell = grid[row][col];
 				
-				if (cell.isRoom()) {
+				if (cell.isRoom() && !cell.isSecretPass()) {
 					continue;
 				}
-				if(cell.isRoomCenter()) {
-					for (int ro = 0; ro < numRows; ro++) {
-						for (int co = 0; co < numColumns; co++) {
-							if(grid[ro][co].isSecretPass()) {
-								
-							}
-						}
-					}
+				//if it is a secret pass then we find the room center of the corresponding 
+				//room and we update the current room center adjacent list and the 
+				//other room center adjacent list
+				if(cell.isSecretPass()) {
+					
+					cell.addAdj(roomMap.get(cell.getInitial()).getCenterCell());
+					roomMap.get(cell.getSecretPassage()).getCenterCell().addAdj(cell);
+					
 				}
+				//if it is a doorway, then the adjacent cell is the room center of the room
+				if(cell.isDoorway()) {
+					BoardCell roomCell;
+					if(cell.getDoorDirection()== DoorDirection.UP) {
+						roomCell = grid[row-1][col];		
+					}
+					else if(cell.getDoorDirection()== DoorDirection.DOWN) {
+						roomCell= grid[row+1][col];
+					}
+					else if(cell.getDoorDirection()== DoorDirection.LEFT) {
+						roomCell = grid[row][col-1];
+					}
+					else{
+						roomCell = grid[row][col+1];
+					}
+					cell.addAdj(roomMap.get(roomCell.getInitial()).getCenterCell());
+				}
+				
+				//case of walkways cells
 				else {
-					if (row > 0) {
+					if (row > 0 && grid[row - 1][col].getInitial()=='W' ) {
 						cell.addAdj(grid[row - 1][col]);
 					}
 	
-					if (row < numRows - 1) {
+					if (row < numRows - 1 && grid[row + 1][col].getInitial()=='W') {
 						cell.addAdj(grid[row + 1][col]);
 					}
 	
-					if (col > 0) {
+					if (col > 0 && grid[row][col - 1].getInitial() == 'W') {
 						cell.addAdj(grid[row][col - 1]);
 					}
 	
-					if (col < numColumns - 1) {
+					if (col < numColumns - 1 && grid[row][col + 1].getInitial() == 'W') {
 						cell.addAdj(grid[row][col + 1]);
 					}
 				}
@@ -414,4 +433,5 @@ public class Board {
 	public Set<BoardCell> getAdjList(int row, int col) {
 		return grid[row][col].getAdjList();
 	}
+	
 }
