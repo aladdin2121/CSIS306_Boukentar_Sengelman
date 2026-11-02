@@ -358,10 +358,14 @@ public class Board {
 						walkWay(row, col, cell);
 					}
 					
-					BoardCell roomCenter = roomMap.get(roomCell.getInitial()).getCenterCell();
+					if (roomInitials.contains(roomCell.getInitial())) {
+					    BoardCell roomCenter = roomMap.get(roomCell.getInitial()).getCenterCell();
 
-					cell.addAdj(roomCenter);
-					roomCenter.addAdj(cell);
+					    if (roomCenter != null) {
+					        cell.addAdj(roomCenter);
+					        roomCenter.addAdj(cell);
+					    }
+					}
 				}
 				
 				//case of walkways cells

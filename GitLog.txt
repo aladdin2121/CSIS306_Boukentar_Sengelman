@@ -1,3 +1,30 @@
+commit cc68a5030b1362eade1b286d45cd4bc06977fe0a (HEAD -> main, origin/main, origin/HEAD)
+Author: Sophie Sengelman-Lipps <sophielipps@gmail.com>
+Date:   Fri Oct 23 21:55:12 2026 -0600
+
+    Finished off the code and got tests to work. Refactored parts of the code to be more readable. Reworked and simplified the file layout of the project.
+
+commit 9caeec06dfae0b27577521c7bfccb6960077fe50
+Author: aladdin2121 <aladdinbouk@gmail.com>
+Date:   Fri Oct 23 20:20:48 2026 -0600
+
+    added room object to cellBoard.java added setter and getter, changer getRoom(boardcell in board.java, and changed the body of (if(roomMp.containskey)) in layoutconfig. Now the code passes most of test5 in fileInitTest. Not secret passages
+
+commit b66b68ddf9bb194c0b188b8b1ab2283845611c17
+Author: aladdin2121 <aladdinbouk@gmail.com>
+Date:   Fri Oct 23 20:00:37 2026 -0600
+
+    refactored room to roomMap in Board.java
+
+commit 948c8e5ed40174918fcb6605a6e9cc74e5fc079a
+Author: aladdin2121 <aladdinbouk@gmail.com>
+Date:   Fri Oct 23 19:57:19 2026 -0600
+
+    corrected && operator in getRoom(BoardCell) in Board.java
+
+commit ab973697725729f75b3b481c588374cf8a14edc8
+Author: aladdin2121 <aladdinbouk@gmail.com>
+
 commit 9d0246e8a85843cc0548e58885eb3fbe8782a23e (HEAD -> main, origin/main, origin/HEAD)
 Merge: e63f759 87679c9
 Author: Sophie Sengelman-Lipps <sophielipps@gmail.com>

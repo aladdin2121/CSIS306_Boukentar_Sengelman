@@ -1,3 +1,17 @@
+/*
+ * Class: BadConfigFormatException
+ * 
+ * Details:
+ * creates a customized exception for bad configuration
+ * 
+ * Authors: Sophie Sengelmann-Lipps
+ * 
+ * Start Date: 10/29/2026
+ * 
+ * Collaborators: None
+ * 
+ * Sources: None
+ */
 package clueGame;
 
 public class BadConfigFormatException extends Exception{

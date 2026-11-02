@@ -17,10 +17,7 @@ public class FileInitTests {
 	public static void setUp() {
 		board = Board.getInstance();
 
-		board.setConfigFiles(
-				"ClueLayout.csv",
-				"ClueSetup.txt"
-				);
+		board.setConfigFiles("ClueLayout.csv","ClueSetup.txt");
 
 		board.initialize();
 	}
