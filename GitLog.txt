@@ -1,3 +1,31 @@
+commit e517928c967c36527de61a73011e9cf08cc2c916 (HEAD -> main, origin/main, origin/HEAD)
+Author: Sophie Sengelman-Lipps <sophielipps@gmail.com>
+Date:   Sun Nov 1 20:41:01 2026 -0700
+
+    finished board.java and fixed it to run other tests correctly again
+
+commit f1318f4a55d3309bb09f7c1c8f17d1d18f87e069
+Author: Sophie Sengelman-Lipps <sophielipps@gmail.com>
+Date:   Sun Nov 1 20:38:59 2026 -0700
+
+    wrote BoardAdjTargetTest
+
+commit 4c705fdefbecf8714bfb498094b36af99c072005
+Author: aladdin2121 <aladdinbouk@gmail.com>
+Date:   Sun Nov 1 02:40:12 2026 -0700
+
+    added a condition that checks if the cell is not a room to findTargets() in Board.java. Now all the tests in BoardAdjTargetTest306 passes)
+
+commit a36175c8586a723187812900a5263c071b415d24
+Author: aladdin2121 <aladdinbouk@gmail.com>
+Date:   Sun Nov 1 02:06:17 2026 -0700
+
+    fixed logic in isDoor condition in calcAdjacencies and now all tests passed except testTargetOccupied
+
+commit 29d5ae2cda2708087e20ef27083f8f98e13855e9
+Author: aladdin2121 <aladdinbouk@gmail.com>
+Date:   Sun Nov 1 01:59:51 2026 -0700
+
 commit cc68a5030b1362eade1b286d45cd4bc06977fe0a (HEAD -> main, origin/main, origin/HEAD)
 Author: Sophie Sengelman-Lipps <sophielipps@gmail.com>
 Date:   Fri Oct 23 21:55:12 2026 -0600
