@@ -26,11 +26,11 @@ public class Room {
 	}
 
 	public String getName() {
-		return name;
+		return this.name;
 	}
 
 	public BoardCell getCenterCell() {
-		return centerCell;
+		return this.centerCell;
 	}
 
 	public void setCenterCell(BoardCell centerCell) {
@@ -38,7 +38,7 @@ public class Room {
 	}
 
 	public BoardCell getLabelCell() {
-		return labelCell;
+		return this.labelCell;
 	}
 
 	public void setLabelCell(BoardCell labelCell) {

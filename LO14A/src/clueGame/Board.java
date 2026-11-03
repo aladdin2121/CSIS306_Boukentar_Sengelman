@@ -46,10 +46,10 @@ public class Board {
 	private Board() {
 		super();
 
-		targets = new HashSet<>();
-		visited = new HashSet<>();
-		roomMap = new HashMap<>();
-		roomInitials = new HashSet<>();
+		this.targets = new HashSet<>();
+		this.visited = new HashSet<>();
+		this.roomMap = new HashMap<>();
+		this.roomInitials = new HashSet<>();
 	}
 
 	public static Board getInstance() {
@@ -57,8 +57,8 @@ public class Board {
 	}
 
 	public void setConfigFiles(String csv, String txt) {
-		layoutConfigFile = csv;
-		setupConfigFile = txt;
+		this.layoutConfigFile = csv;
+		this.setupConfigFile = txt;
 	}
 
 	public void initialize() {
@@ -74,8 +74,8 @@ public class Board {
 
 	public void loadSetupConfig() throws FileNotFoundException, BadConfigFormatException {
 
-		roomMap.clear();
-		roomInitials.clear();
+		this.roomMap.clear();
+		this.roomInitials.clear();
 
 		try (Scanner scan = new Scanner(new File("data", setupConfigFile))) {
 
@@ -361,17 +361,14 @@ public class Board {
 					if (roomInitials.contains(roomCell.getInitial())) {
 					    BoardCell roomCenter = roomMap.get(roomCell.getInitial()).getCenterCell();
 
-<<<<<<< HEAD
-					cell.addAdj(roomCenter);
-					roomCenter.addAdj(cell);
-					walkWayAdjCalc(row, col, cell);
-=======
+
 					    if (roomCenter != null) {
 					        cell.addAdj(roomCenter);
 					        roomCenter.addAdj(cell);
+					        walkWayAdjCalc(row, col, cell);
 					    }
 					}
->>>>>>> e517928c967c36527de61a73011e9cf08cc2c916
+
 				}
 				
 				//case of walkways cells
@@ -440,7 +437,7 @@ public class Board {
 	}
 
 	public Room getRoom(char initial) {
-		return roomMap.get(initial);
+		return this.roomMap.get(initial);
 	}
 
 	public Room getRoom(BoardCell cell) {
@@ -448,26 +445,26 @@ public class Board {
 			return null;
 		}
 
-		return roomMap.get(cell.getInitial());
+		return this.roomMap.get(cell.getInitial());
 	}
 
 	public BoardCell getCell(int row, int col) {
-		return grid[row][col];
+		return this.grid[row][col];
 	}
 
 	public Set<BoardCell> getTargets() {
-		return targets;
+		return this.targets;
 	}
 
 	public int getNumRows() {
-		return numRows;
+		return this.numRows;
 	}
 
 	public int getNumColumns() {
-		return numColumns;
+		return this.numColumns;
 	}
 	public Set<BoardCell> getAdjList(int row, int col) {
-		return grid[row][col].getAdjList();
+		return this.grid[row][col].getAdjList();
 	}
 	
 }

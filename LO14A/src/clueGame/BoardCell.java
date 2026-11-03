@@ -36,19 +36,19 @@ public class BoardCell {
 	}
 
 	public Set<BoardCell> getAdjList() {
-		return adjList;
+		return this.adjList;
 	}
 
 	public int getRow() {
-		return row;
+		return this.row;
 	}
 
 	public int getCol() {
-		return col;
+		return this.col;
 	}
 
 	public char getInitial() {
-		return initial;
+		return this.initial;
 	}
 
 	public void setInitial(char initial) {
@@ -60,7 +60,7 @@ public class BoardCell {
 	}
 
 	public boolean isRoom() {
-		return isRoom;
+		return this.isRoom;
 	}
 
 	public void setOccupied(boolean occupied) {
@@ -68,11 +68,11 @@ public class BoardCell {
 	}
 
 	public boolean getOccupied() {
-		return isOccupied;
+		return this.isOccupied;
 	}
 
 	public boolean isDoorway() {
-		return isDoorway;
+		return this.isDoorway;
 	}
 
 	public void setIsDoorWay(boolean doorway) {
@@ -88,15 +88,15 @@ public class BoardCell {
 	}
 
 	public boolean isLabel() {
-		return roomLabel;
+		return this.roomLabel;
 	}
 
 	public void setLabel(boolean label) {
-		roomLabel = label;
+		this.roomLabel = label;
 	}
 
 	public boolean isRoomCenter() {
-		return roomCenter;
+		return this.roomCenter;
 	}
 
 	public void setRoomCenter(boolean roomCenter) {
@@ -104,7 +104,7 @@ public class BoardCell {
 	}
 
 	public char getSecretPassage() {
-		return secretPass;
+		return this.secretPass;
 	}
 
 	public void setSecretPassage(char secretPassage) {
