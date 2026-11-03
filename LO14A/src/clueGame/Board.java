@@ -339,44 +339,50 @@ public class Board {
 					if(cell.getDoorDirection()== DoorDirection.UP) {
 						roomCell = grid[row-1][col];
 						
-						walkWay(row, col, cell);
+						
 						
 					}
 					else if(cell.getDoorDirection()== DoorDirection.DOWN) {
 						roomCell= grid[row+1][col];
 						
-						walkWay(row, col, cell);
+						
 					}
 					else if(cell.getDoorDirection()== DoorDirection.LEFT) {
 						roomCell = grid[row][col-1];
 						
-						walkWay(row, col, cell);
+						
 					}
 					else{
 						roomCell = grid[row][col+1];
 						
-						walkWay(row, col, cell);
+						
 					}
 					
 					if (roomInitials.contains(roomCell.getInitial())) {
 					    BoardCell roomCenter = roomMap.get(roomCell.getInitial()).getCenterCell();
 
+<<<<<<< HEAD
+					cell.addAdj(roomCenter);
+					roomCenter.addAdj(cell);
+					walkWayAdjCalc(row, col, cell);
+=======
 					    if (roomCenter != null) {
 					        cell.addAdj(roomCenter);
 					        roomCenter.addAdj(cell);
 					    }
 					}
+>>>>>>> e517928c967c36527de61a73011e9cf08cc2c916
 				}
 				
 				//case of walkways cells
 				else if (cell.getInitial()=='W'){
-					walkWay(row, col, cell);
+					walkWayAdjCalc(row, col, cell);
 				}
 			}
 		}
 	}
 
-	private void walkWay(int row, int col, BoardCell cell) {
+	private void walkWayAdjCalc(int row, int col, BoardCell cell) {
 		if (row > 0 && grid[row - 1][col].getInitial()=='W') {
 			cell.addAdj(grid[row - 1][col]);
 		}
