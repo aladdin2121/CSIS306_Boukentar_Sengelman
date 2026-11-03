@@ -339,40 +339,41 @@ public class Board {
 					if(cell.getDoorDirection()== DoorDirection.UP) {
 						roomCell = grid[row-1][col];
 						
-						walkWay(row, col, cell);
+						
 						
 					}
 					else if(cell.getDoorDirection()== DoorDirection.DOWN) {
 						roomCell= grid[row+1][col];
 						
-						walkWay(row, col, cell);
+						
 					}
 					else if(cell.getDoorDirection()== DoorDirection.LEFT) {
 						roomCell = grid[row][col-1];
 						
-						walkWay(row, col, cell);
+						
 					}
 					else{
 						roomCell = grid[row][col+1];
 						
-						walkWay(row, col, cell);
+						
 					}
 					
 					BoardCell roomCenter = roomMap.get(roomCell.getInitial()).getCenterCell();
 
 					cell.addAdj(roomCenter);
 					roomCenter.addAdj(cell);
+					walkWayAdjCalc(row, col, cell);
 				}
 				
 				//case of walkways cells
 				else if (cell.getInitial()=='W'){
-					walkWay(row, col, cell);
+					walkWayAdjCalc(row, col, cell);
 				}
 			}
 		}
 	}
 
-	private void walkWay(int row, int col, BoardCell cell) {
+	private void walkWayAdjCalc(int row, int col, BoardCell cell) {
 		if (row > 0 && grid[row - 1][col].getInitial()=='W') {
 			cell.addAdj(grid[row - 1][col]);
 		}
