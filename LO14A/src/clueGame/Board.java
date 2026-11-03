@@ -211,7 +211,6 @@ public class Board {
 
 				cell.setInitial(initial);
 				cell.setRoom(roomInitials.contains(initial));
-				cell.setDirection(DoorDirection.NONE);
 				cell.setIsDoorWay(false);
 
 				if (token.length() == 2) {
