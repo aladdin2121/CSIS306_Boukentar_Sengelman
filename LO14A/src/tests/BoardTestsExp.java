@@ -1,4 +1,4 @@
-/*package tests;
+package tests;
 import experiment.TestBoard;
 import experiment.TestBoardCell;
 
@@ -210,4 +210,3 @@ public class BoardTestsExp {
 		
 	}
 }
-*/

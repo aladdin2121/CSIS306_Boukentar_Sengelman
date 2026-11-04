@@ -66,9 +66,7 @@ public class Board {
 			loadSetupConfig();
 			loadLayoutConfig();
 		} catch (FileNotFoundException | BadConfigFormatException e) {
-			System.err.println(
-					"Unable to initialize board: " + e.getMessage()
-					);
+			System.err.println("Unable to initialize board: " + e.getMessage());
 		}
 	}
 
@@ -92,9 +90,7 @@ public class Board {
 				String[] tokens = line.split(",", -1);
 
 				if (tokens.length != 3) {
-					throw new BadConfigFormatException(
-							"Invalid setup entry on line " + lineNumber
-							);
+					throw new BadConfigFormatException("Invalid setup entry on line " + lineNumber);
 				}
 
 				String type = tokens[0].trim();
@@ -102,24 +98,17 @@ public class Board {
 				String symbol = tokens[2].trim();
 
 				if (name.isEmpty() || symbol.length() != 1) {
-					throw new BadConfigFormatException(
-							"Invalid setup entry on line " + lineNumber
-							);
+					throw new BadConfigFormatException("Invalid setup entry on line " + lineNumber);
 				}
 
-				if (!type.equalsIgnoreCase("room")
-						&& !type.equalsIgnoreCase("space")) {
-					throw new BadConfigFormatException(
-							"Unknown setup entry type on line " + lineNumber
-							);
+				if (!type.equalsIgnoreCase("room") && !type.equalsIgnoreCase("space")) {
+					throw new BadConfigFormatException("Unknown setup entry type on line " + lineNumber);
 				}
 
 				char initial = symbol.charAt(0);
 
 				if (roomMap.containsKey(initial)) {
-					throw new BadConfigFormatException(
-							"Duplicate setup symbol: " + initial
-							);
+					throw new BadConfigFormatException("Duplicate setup symbol: " + initial);
 				}
 
 				roomMap.put(initial, new Room(name));
@@ -131,9 +120,7 @@ public class Board {
 		}
 
 		if (roomMap.isEmpty()) {
-			throw new BadConfigFormatException(
-					"The setup file contains no entries."
-					);
+			throw new BadConfigFormatException("The setup file contains no entries.");
 		}
 	}
 
@@ -161,18 +148,14 @@ public class Board {
 		}
 
 		if (layout.isEmpty()) {
-			throw new BadConfigFormatException(
-					"The layout file is empty."
-					);
+			throw new BadConfigFormatException("The layout file is empty.");
 		}
 
 		numRows = layout.size();
 		numColumns = layout.get(0).length;
 
 		if (numColumns == 0) {
-			throw new BadConfigFormatException(
-					"The layout file has no columns."
-					);
+			throw new BadConfigFormatException("The layout file has no columns.");
 		}
 
 		// Validate every row and cell before creating the grid.
@@ -180,9 +163,7 @@ public class Board {
 			String[] tokens = layout.get(row);
 
 			if (tokens.length != numColumns) {
-				throw new BadConfigFormatException(
-						"Incorrect number of columns in row " + row
-						);
+				throw new BadConfigFormatException("Incorrect number of columns in row " + row);
 			}
 
 			for (int col = 0; col < numColumns; col++) {
@@ -211,6 +192,7 @@ public class Board {
 
 				cell.setInitial(initial);
 				cell.setRoom(roomInitials.contains(initial));
+				cell.setEmpty(initial == 'X');
 				cell.setIsDoorWay(false);
 
 				if (token.length() == 2) {
@@ -237,23 +219,17 @@ public class Board {
 		calcAdjacencies();
 	}
 
-	private void validateCellToken(
-			String token, int row, int col)
-					throws BadConfigFormatException {
+	private void validateCellToken(String token, int row, int col) throws BadConfigFormatException {
 
 		if (token.isEmpty() || token.length() > 2) {
-			throw new BadConfigFormatException(
-					"Invalid cell at row " + row + ", column " + col
-					);
+			throw new BadConfigFormatException("Invalid cell at row " + row + ", column " + col);
 		}
 
 		char initial = token.charAt(0);
 
 		if (!roomMap.containsKey(initial)) {
 			throw new BadConfigFormatException(
-					"Unknown room or space symbol '" + initial
-					+ "' at row " + row + ", column " + col
-					);
+					"Unknown room or space symbol '" + initial + "' at row " + row + ", column " + col);
 		}
 
 		if (token.length() == 1) {
@@ -266,28 +242,20 @@ public class Board {
 			return;
 		}
 
-		if ((marker == '*' || marker == '#')
-				&& roomInitials.contains(initial)) {
+		if ((marker == '*' || marker == '#') && roomInitials.contains(initial)) {
 			return;
 		}
 
 		// A second room initial represents a secret passage.
-		if (roomInitials.contains(initial)
-				&& roomInitials.contains(marker)) {
+		if (roomInitials.contains(initial) && roomInitials.contains(marker)) {
 			return;
 		}
 
-		throw new BadConfigFormatException(
-				"Invalid cell marker '" + marker
-				+ "' at row " + row + ", column " + col
-				);
+		throw new BadConfigFormatException("Invalid cell marker '" + marker + "' at row " + row + ", column " + col);
 	}
 
 	private boolean isDirectionMarker(char marker) {
-		return marker == '^'
-				|| marker == 'v'
-				|| marker == '<'
-				|| marker == '>';
+		return marker == '^' || marker == 'v' || marker == '<' || marker == '>';
 	}
 
 	private DoorDirection getDirection(char marker) {
@@ -310,68 +278,61 @@ public class Board {
 			for (int col = 0; col < numColumns; col++) {
 
 				BoardCell cell = grid[row][col];
+				//if the cell is X then it is skipped
 				
-				//if it is a room cell and not a secret passage we skip. Room center is 
-				//calculated with doorway and secret passage
-				
+				if (cell.isEmpty()) {
+				    continue;
+				}
+				// if it is a room cell and not a secret passage we skip. Room center is
+				// calculated with doorway and secret passage
+
 				if (cell.isRoom() && !cell.isSecretPass()) {
 					continue;
 				}
-				//if it is a secret pass then we find the room center of the corresponding 
-				//room and we update the current room center adjacent list and the 
-				//other room center adjacent list
-				if(cell.isSecretPass()) {
-					
+				// if it is a secret pass then we find the room center of the corresponding
+				// room and we update the current room center adjacent list and the
+				// other room center adjacent list
+				if (cell.isSecretPass()) {
+
 					BoardCell current = roomMap.get(cell.getInitial()).getCenterCell();
 					BoardCell destination = roomMap.get(cell.getSecretPassage()).getCenterCell();
 
 					current.addAdj(destination);
 					destination.addAdj(current);
-					
-					
-					
+
 				}
-				//if it is a doorway, then the adjacent cell is the room center of the room
-				//and walkways 
-				else if(cell.isDoorway()) {
+				// if it is a doorway, then the adjacent cell is the room center of the room
+				// and walkways
+				else if (cell.isDoorway()) {
 					BoardCell roomCell;
-					if(cell.getDoorDirection()== DoorDirection.UP) {
-						roomCell = grid[row-1][col];
-						
-						
-						
+					if (cell.getDoorDirection() == DoorDirection.UP) {
+						roomCell = grid[row - 1][col];
+
+					} else if (cell.getDoorDirection() == DoorDirection.DOWN) {
+						roomCell = grid[row + 1][col];
+
+					} else if (cell.getDoorDirection() == DoorDirection.LEFT) {
+						roomCell = grid[row][col - 1];
+
+					} else {
+						roomCell = grid[row][col + 1];
+
 					}
-					else if(cell.getDoorDirection()== DoorDirection.DOWN) {
-						roomCell= grid[row+1][col];
-						
-						
-					}
-					else if(cell.getDoorDirection()== DoorDirection.LEFT) {
-						roomCell = grid[row][col-1];
-						
-						
-					}
-					else{
-						roomCell = grid[row][col+1];
-						
-						
-					}
-					
+
 					if (roomInitials.contains(roomCell.getInitial())) {
-					    BoardCell roomCenter = roomMap.get(roomCell.getInitial()).getCenterCell();
+						BoardCell roomCenter = roomMap.get(roomCell.getInitial()).getCenterCell();
 
-
-					    if (roomCenter != null) {
-					        cell.addAdj(roomCenter);
-					        roomCenter.addAdj(cell);
-					        walkWayAdjCalc(row, col, cell);
-					    }
+						if (roomCenter != null) {
+							cell.addAdj(roomCenter);
+							roomCenter.addAdj(cell);
+							walkWayAdjCalc(row, col, cell);
+						}
 					}
 
 				}
-				
-				//case of walkways cells
-				else if (cell.getInitial()=='W'){
+
+				// case of walkways cells
+				else if (cell.getInitial() == 'W') {
 					walkWayAdjCalc(row, col, cell);
 				}
 			}
@@ -379,15 +340,15 @@ public class Board {
 	}
 
 	private void walkWayAdjCalc(int row, int col, BoardCell cell) {
-		if (row > 0 && grid[row - 1][col].getInitial()=='W') {
+		if (row > 0 && grid[row - 1][col].getInitial() == 'W') {
 			cell.addAdj(grid[row - 1][col]);
 		}
 
-		if (row < numRows - 1 && grid[row + 1][col].getInitial()=='W' ) {
+		if (row < numRows - 1 && grid[row + 1][col].getInitial() == 'W') {
 			cell.addAdj(grid[row + 1][col]);
 		}
 
-		if (col > 0 && grid[row][col - 1].getInitial() == 'W' ) {
+		if (col > 0 && grid[row][col - 1].getInitial() == 'W') {
 			cell.addAdj(grid[row][col - 1]);
 		}
 
@@ -409,8 +370,7 @@ public class Board {
 		visited.clear();
 	}
 
-	private void findTargets(
-			BoardCell current, int stepsRemaining) {
+	private void findTargets(BoardCell current, int stepsRemaining) {
 
 		if (stepsRemaining == 0) {
 			targets.add(current);
@@ -419,7 +379,7 @@ public class Board {
 
 		for (BoardCell next : current.getAdjList()) {
 
-			if (visited.contains(next) || (next.getOccupied()&& !next.isRoom())) {
+			if (visited.contains(next) || (next.getOccupied() && !next.isRoom())) {
 				continue;
 			}
 
@@ -462,8 +422,9 @@ public class Board {
 	public int getNumColumns() {
 		return this.numColumns;
 	}
+
 	public Set<BoardCell> getAdjList(int row, int col) {
 		return this.grid[row][col].getAdjList();
 	}
-	
+
 }

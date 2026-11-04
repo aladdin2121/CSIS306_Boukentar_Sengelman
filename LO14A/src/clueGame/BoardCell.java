@@ -15,6 +15,7 @@
  * Sources: None
  */
 package clueGame;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -22,7 +23,7 @@ public class BoardCell {
 	private int col, row;
 	private char initial, secretPass;
 	private Set<BoardCell> adjList = new HashSet<>();
-	private boolean isRoom, isOccupied, isDoorway, roomLabel, roomCenter, isSecretPass = false;
+	private boolean isRoom, isOccupied = false, isDoorway = false, roomLabel = false, roomCenter = false, isSecretPass = false, isEmpty = false;
 	private DoorDirection direction = DoorDirection.NONE;
 
 	public BoardCell(int row, int col) {
@@ -111,8 +112,16 @@ public class BoardCell {
 		this.secretPass = secretPassage;
 		this.isSecretPass = true;
 	}
+
 	public boolean isSecretPass() {
 		return this.isSecretPass;
 	}
-}
 
+	public void setEmpty(boolean empty) {
+		this.isEmpty = empty;
+	}
+
+	public boolean isEmpty() {
+		return this.isEmpty;
+	}
+}
