@@ -1,5 +1,21 @@
+/*
+ * Class: GameSetupTests
+ * 
+ * Details:
+ * tests the set up of players, deck, and answer
+ * 
+ * Authors: Alaa Eddine Boukentar Assefar
+ * 			Sophie Sengelmann-Lipps
+ * 
+ * Start Date: 11/05/2026
+ * 
+ * Collaborators: None
+ * 
+ * Sources: None
+ */
 package tests;
 import static org.junit.jupiter.api.Assertions.*;
+
 
 import java.awt.Color;
 import java.util.HashSet;
@@ -10,6 +26,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import clueGame.Board;
+import clueGame.BoardCell;
+import clueGame.Card;
+import clueGame.CardType;
+import clueGame.Player;
 
 class GameSetupTests {
 	// our game will always have 6 players (1 human and 5 coms)
@@ -37,7 +57,7 @@ class GameSetupTests {
 		*/
 		// Board is singleton, get the only instance
 		board = Board.getInstance();
-		// set the file names to use my config files
+		//set the file names to use my config files
 		board.setConfigFiles("ClueLayout306.csv", "ClueSetup306.txt");
 		// Initialize will load BOTH config files
 		board.initialize();
@@ -57,16 +77,21 @@ class GameSetupTests {
 		//check players starting position (picked 2 human player and player #4)
 		BoardCell cell = new BoardCell(0,5);
 		assertEquals(cell, board.person.getPosition());
-		cell = BoardCell(23, 13);
+		cell = new BoardCell(23, 13);
 		assertEquals(cell, board.com4.getPosition());
 		
 		//check if the player loads cards
-		Player p1 = new Player ("john", Color.black, true, 12, 6)
-		p1.loadDeck(card1, card2, card3);
+		BoardCell cell1 = new BoardCell(12,6);
+		Player p1 = new Player ("john", Color.black, true, cell1);
+		
 		Card card1 = new Card(CardType.ROOM, "Kitchen");
 		Card card2 = new Card(CardType.PERSON, "Mrs. White");
 		Card card3 = new Card(CardType.WEAPON, "Gun");
-		Card card4 = new Card(CardType.WEAPON, "Machine Gun");
+		Card card4 = new Card(CardType.WEAPON, "Machine Gun");	
+		p1.setHand(card1);
+		p1.setHand(card2);
+		p1.setHand(card3);
+		
 		assertTrue(p1.getHand().contains(card1));
 		assertTrue(p1.getHand().contains(card2));
 		assertTrue(p1.getHand().contains(card3));
@@ -107,17 +132,17 @@ class GameSetupTests {
 		assertEquals(board.com4.getHand().size(), board.com5.getHand().size());
 		//check if all cards dealt are unique
 		Set<Card> allCards = new HashSet<>();
-		allCard.addAll(board.person.getHand());
-		allCard.addAll(board.com1.getHand());
-		allCard.addAll(board.com2.getHand());
-		allCard.addAll(board.com3.getHand());
-		allCard.addAll(board.com4.getHand());
-		allCard.addAll(board.com5.getHand());
+		allCards.addAll(board.person.getHand());
+		allCards.addAll(board.com1.getHand());
+		allCards.addAll(board.com2.getHand());
+		allCards.addAll(board.com3.getHand());
+		allCards.addAll(board.com4.getHand());
+		allCards.addAll(board.com5.getHand());
 		
 		assertEquals(18, allCards.size());
 		//check if the answer cards are unique
 		
-		allCard.addAll(board.answer.getAnswer());		
+		allCards.addAll(board.answer.getAnswer());		
 		assertEquals(21, allCards.size());
 		
 	}
