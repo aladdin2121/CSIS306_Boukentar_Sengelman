@@ -54,6 +54,7 @@ class GameSetupTests {
     public void testPlayer() {
         Collection<Player> players = board.getPlayers();
 
+<<<<<<< HEAD
         assertEquals(6, players.size());
 
         Player person = findPlayer("Professor Plum");
@@ -61,6 +62,84 @@ class GameSetupTests {
         assertEquals(Color.PINK, person.getColor());
         assertTrue(person.isHuman());
         assertTrue(person instanceof HumanPlayer);
+=======
+		
+		//check players starting position (picked 2 human player and player #4)
+		BoardCell cell = new BoardCell(0,5);
+		assertEquals(cell, board.person.getLocation());
+		cell = new BoardCell(23, 13);
+		assertEquals(cell, board.com4.getLocation());
+		
+		//check if the player loads cards
+		BoardCell cell1 = new BoardCell(12,6);
+		Player p1 = new Player ("john", Color.black, true, 12, 6);
+		p1.setLocation(cell1);
+		
+		Card card1 = new Card(CardType.ROOM, "Kitchen");
+		Card card2 = new Card(CardType.PERSON, "Mrs. White");
+		Card card3 = new Card(CardType.WEAPON, "Gun");
+		Card card4 = new Card(CardType.WEAPON, "Machine Gun");	
+		p1.setHand(card1);
+		p1.setHand(card2);
+		p1.setHand(card3);
+		
+		assertTrue(p1.getHand().contains(card1));
+		assertTrue(p1.getHand().contains(card2));
+		assertTrue(p1.getHand().contains(card3));
+		assertTrue(!p1.getHand().contains(card4));
+		
+		
+	}
+	@Test
+	void testDeck() {
+		Card card1 = new Card(CardType.ROOM, "Kitchen");
+		Card card2 = new Card(CardType.PERSON, "Mrs. White");
+		Card card3 = new Card(CardType.WEAPON, "Gun");
+		Card card4 = new Card(CardType.ROOM, "");
+		Card card5 = new Card(CardType.ROOM, " ");
+		Card card6 = new Card(CardType.PERSON, " ");
+		Card card7 = new Card(CardType.WEAPON, " ");
+		
+		assertTrue(board.deck.contains(card1));
+		assertTrue(board.deck.contains(card2));
+		assertTrue(board.deck.contains(card3));
+		
+		assertTrue(!board.deck.contains(card4));
+		assertTrue(!board.deck.contains(card5));
+		assertTrue(!board.deck.contains(card6));
+		assertTrue(!board.deck.contains(card7));
+		
+		
+		assertEquals(18, board.deck.size());
+		
+	}
+
+	@Test
+	void testCardsDelt() {
+		//we will always have 6 players (1 human and 5 comps)
+		assertEquals(board.person.getHand().size(), board.com1.getHand().size());
+		assertEquals(board.com1.getHand().size(), board.com2.getHand().size());
+		assertEquals(board.com2.getHand().size(), board.com3.getHand().size());
+		assertEquals(board.com3.getHand().size(), board.com4.getHand().size());
+		assertEquals(board.com4.getHand().size(), board.com5.getHand().size());
+		//check if all cards dealt are unique
+		Set<Card> allCards = new HashSet<>();
+		allCards.addAll(board.person.getHand());
+		allCards.addAll(board.com1.getHand());
+		allCards.addAll(board.com2.getHand());
+		allCards.addAll(board.com3.getHand());
+		allCards.addAll(board.com4.getHand());
+		allCards.addAll(board.com5.getHand());
+		
+		assertEquals(18, allCards.size());
+		//check if the answer cards are unique
+		
+		allCards.addAll(board.solution.getSolution());		
+		assertEquals(21, allCards.size());
+		
+	}
+	
+>>>>>>> ea9e9dc11c4bd6ee04a4594461a1613c275b4981
 
         assertEquals(0, person.getLocation().getRow());
         assertEquals(5, person.getLocation().getCol());
