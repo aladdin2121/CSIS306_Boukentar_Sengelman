@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Board {
 
@@ -94,6 +95,35 @@ public class Board {
 			BoardCell cell5 = grid[com5.getStartingRow()][com5.getStartingCol()];
 			com5.setLocation(cell5);
 			
+			List<Card> list = new ArrayList<>(deck);
+	        
+	        // Pick a random index
+			
+			Card randomElement1;
+			Card randomElement2;
+			Card randomElement3;
+			while(true) {
+				int randomIndex = ThreadLocalRandom.current().nextInt(list.size());
+				randomElement1 = list.get(randomIndex);
+				if (randomElement1.getType()==CardType.ROOM)
+					randomIndex = ThreadLocalRandom.current().nextInt(list.size());
+					randomElement2 = list.get(randomIndex);
+					if (randomElement2.getType()==CardType.PERSON) {
+						randomIndex = ThreadLocalRandom.current().nextInt(list.size());
+						randomElement3 = list.get(randomIndex);
+						if (randomElement3.getType()==CardType.WEAPON) {
+							break;
+						}
+					}
+			}
+			this.solution = Solution.getInstance();
+			solution.setSolution(randomElement1, randomElement2, randomElement3);
+	        deck.remove(randomElement1);
+	        deck.remove(randomElement2);
+	        deck.remove(randomElement3);
+			
+			
+			
 		} catch (FileNotFoundException | BadConfigFormatException e) {
 			System.err.println("Unable to initialize board: " + e.getMessage());
 		}
@@ -122,7 +152,7 @@ public class Board {
 				//setting up rooms and spaces
 
 				if (tokens.length == 3) {
-					
+					System.out.println("executing inside if statement when length is 3");
 					String type = tokens[0].trim();
 					String name = tokens[1].trim();
 					String symbol = tokens[2].trim();
@@ -156,6 +186,7 @@ public class Board {
 				}
 				//setting up weapons
 				if (tokens.length == 2) {
+					System.out.println("executing inside if statement when length is 2");
 					String type = tokens[0].trim();
 					String name = tokens[1].trim();
 					if (!type.equalsIgnoreCase("weapon")) {
@@ -167,6 +198,7 @@ public class Board {
 				}
 				//setting up Players and player card in the deck
 				if (tokens.length == 6) {
+					System.out.println("executing inside if statement when length is 6");
 					String personToken = tokens[0].trim();
 					String name = tokens[1].trim();
 					Color color = getColor(tokens[2]);

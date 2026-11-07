@@ -53,11 +53,17 @@ public class Solution {
 	public Set<Card> getSolution(){
 		return this.solution;
 	}
-
-	@Override
-	public String toString() {
-		return "Solution [solution=" + solution + ", room=" + room + ", person=" + person + ", weapon=" + weapon + "]";
+	public void setSolution(Card room, Card person, Card weapon) {
+	    this.room = room;
+	    this.person = person;
+	    this.weapon = weapon;
+	    this.solution.clear();
+	    this.solution.add(room);
+	    this.solution.add(person);
+	    this.solution.add(weapon);
 	}
+
+	
 	
 	
 	
