@@ -40,6 +40,17 @@ public class Board {
 
 	private Set<BoardCell> targets;
 	private Set<BoardCell> visited;
+	//set deck and different Player objects to public for tests
+	public Set<Card> deck;
+	
+	public Player person;
+	public Player com1;
+	public Player com2;
+	public Player com3;
+	public Player com4;
+	public Player com5;
+	
+	public Solution solution;
 
 	private static final Board theInstance = new Board();
 
@@ -50,6 +61,7 @@ public class Board {
 		this.visited = new HashSet<>();
 		this.roomMap = new HashMap<>();
 		this.roomInitials = new HashSet<>();
+		this.deck = new HashSet<>();
 	}
 
 	public static Board getInstance() {
