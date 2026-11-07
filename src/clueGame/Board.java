@@ -427,4 +427,15 @@ public class Board {
 		return this.grid[row][col].getAdjList();
 	}
 
+	public Collection<Player> getPlayers() {
+	    return players;
+	}
+
+	public Collection<Card> getDeck() {
+	    return deck;
+	}
+
+	public Solution getAnswer() {
+	    return answer;
+	}
 }

@@ -1,103 +1,184 @@
-commit e517928c967c36527de61a73011e9cf08cc2c916 (HEAD -> main, origin/main, origin/HEAD)
-Author: Sophie Sengelman-Lipps <sophielipps@gmail.com>
-Date:   Sun Nov 1 20:41:01 2026 -0700
-
-    finished board.java and fixed it to run other tests correctly again
-
-commit f1318f4a55d3309bb09f7c1c8f17d1d18f87e069
-Author: Sophie Sengelman-Lipps <sophielipps@gmail.com>
-Date:   Sun Nov 1 20:38:59 2026 -0700
-
-    wrote BoardAdjTargetTest
-
-commit 4c705fdefbecf8714bfb498094b36af99c072005
-Author: aladdin2121 <aladdinbouk@gmail.com>
-Date:   Sun Nov 1 02:40:12 2026 -0700
-
-    added a condition that checks if the cell is not a room to findTargets() in Board.java. Now all the tests in BoardAdjTargetTest306 passes)
-
-commit a36175c8586a723187812900a5263c071b415d24
-Author: aladdin2121 <aladdinbouk@gmail.com>
-Date:   Sun Nov 1 02:06:17 2026 -0700
-
-    fixed logic in isDoor condition in calcAdjacencies and now all tests passed except testTargetOccupied
-
-commit 29d5ae2cda2708087e20ef27083f8f98e13855e9
-Author: aladdin2121 <aladdinbouk@gmail.com>
-Date:   Sun Nov 1 01:59:51 2026 -0700
-
-commit cc68a5030b1362eade1b286d45cd4bc06977fe0a (HEAD -> main, origin/main, origin/HEAD)
-Author: Sophie Sengelman-Lipps <sophielipps@gmail.com>
-Date:   Fri Oct 23 21:55:12 2026 -0600
-
-    Finished off the code and got tests to work. Refactored parts of the code to be more readable. Reworked and simplified the file layout of the project.
-
-commit 9caeec06dfae0b27577521c7bfccb6960077fe50
-Author: aladdin2121 <aladdinbouk@gmail.com>
-Date:   Fri Oct 23 20:20:48 2026 -0600
-
-    added room object to cellBoard.java added setter and getter, changer getRoom(boardcell in board.java, and changed the body of (if(roomMp.containskey)) in layoutconfig. Now the code passes most of test5 in fileInitTest. Not secret passages
-
-commit b66b68ddf9bb194c0b188b8b1ab2283845611c17
-Author: aladdin2121 <aladdinbouk@gmail.com>
-Date:   Fri Oct 23 20:00:37 2026 -0600
-
-    refactored room to roomMap in Board.java
-
-commit 948c8e5ed40174918fcb6605a6e9cc74e5fc079a
-Author: aladdin2121 <aladdinbouk@gmail.com>
-Date:   Fri Oct 23 19:57:19 2026 -0600
-
-    corrected && operator in getRoom(BoardCell) in Board.java
-
-commit ab973697725729f75b3b481c588374cf8a14edc8
-Author: aladdin2121 <aladdinbouk@gmail.com>
-
-commit 9d0246e8a85843cc0548e58885eb3fbe8782a23e (HEAD -> main, origin/main, origin/HEAD)
-Merge: e63f759 87679c9
-Author: Sophie Sengelman-Lipps <sophielipps@gmail.com>
-Date:   Mon Oct 19 20:44:26 2026 -0600
-
-    Merge branch 'main' of https://github.com/aladdin2121/CSIS306_Boukentar_Sengelman
-
-commit e63f759adac0d6e21d4e519d710d2208e78bb473
-Author: Sophie Sengelman-Lipps <sophielipps@gmail.com>
-Date:   Mon Oct 19 20:43:28 2026 -0600
-
-    Finished off TestBoard.java and fixed broken test for LO12A
-
-commit 87679c97e7cc3b71bd4b0fb9427a91ce2f144a38
-Author: aladdin2121 <148940370+aladdin2121@users.noreply.github.com>
-Date:   Mon Oct 19 12:49:32 2026 -0600
-
-    Add files via upload
-
-    passed 2 tests
-
-commit d4fbe79197592f3e21b325bf78ff6c58fc3dcc46
-Author: aladdin2121 <aladdinbouk@gmail.com>
-Date:   Mon Oct 19 12:46:02 2026 -0600
-
-    adding the files that passed the 2 first tests
-
-commit dd2f4af7b02e50d290ed86b0233c486cb8dee09a
-Author: aladdin2121 <aladdinbouk@gmail.com>
-
-commit 7f0c4336997fe3ab5342beadff50cefc196769c3 (HEAD -> main, origin/main, origin/HEAD)
-Merge: 469af05 db2b24d
-Author: Sophie Sengelman-Lipps <sophielipps@gmail.com>
-Date:   Wed Oct 14 21:35:56 2026 -0600
-
-    Resolved .gitignore issue
-
-commit 469af050227087a25e59a272120a8d1cfc0ecde9
-Author: Sophie Sengelman-Lipps <sophielipps@gmail.com>
-Date:   Wed Oct 14 21:29:47 2026 -0600
-
-    LO11A Tests and dummy classes
-
-commit db2b24dd18df02d94ee8880b7970b04d0769d150
-Author: aladdin2121 <148940370+aladdin2121@users.noreply.github.com>
-Date:   Wed Oct 14 21:09:20 2026 -0600
-
-    Initial commit
+Commits on Nov 4, 2026
+Initialised Bools in BoardCell to false by default, created an isEmpty bool to check if a cell is marked with an X
+author
+Sophie Sengelman-Lipps
+committed
+1 minute ago
+Commits on Nov 2, 2026
+deleted an initialization of direction to NONE inside loadLayoutConfig in Board.java. We already set direction to NONE by default in BoardCell.java
+aladdin2121
+aladdin2121
+committed
+yesterday
+Merge branch 'main' of https://github.com/aladdin2121/CSIS306_Boukentar_Sengelman
+aladdin2121
+aladdin2121
+committed
+yesterday
+in all the classes, I added this to the variables
+aladdin2121
+aladdin2121
+committed
+yesterday
+Merge branch 'main' of https://github.com/aladdin2121/CSIS306_Boukentar_Sengelman
+author
+Sophie Sengelman-Lipps
+committed
+yesterday
+file location issue
+author
+Sophie Sengelman-Lipps
+committed
+yesterday
+resolved merge conflict
+aladdin2121
+aladdin2121
+committed
+yesterday
+renamed walkway method to a more descriptive method called walWayAdjCalc, and inside the else if statement for doorway adjacency calculation took off walkWayAdjCalc from each else if statement and …
+aladdin2121
+aladdin2121
+committed
+yesterday
+Commits on Nov 1, 2026
+finished board.java and fixed it to run other tests correctly again
+author
+Sophie Sengelman-Lipps
+committed
+3 days ago
+wrote BoardAdjTargetTest
+author
+Sophie Sengelman-Lipps
+committed
+3 days ago
+added a condition that checks if the cell is not a room to findTargets() in Board.java. Now all the tests in BoardAdjTargetTest306 passes)
+aladdin2121
+aladdin2121
+committed
+3 days ago
+fixed logic in isDoor condition in calcAdjacencies and now all tests passed except testTargetOccupied
+aladdin2121
+aladdin2121
+committed
+3 days ago
+changed logic inside calcAdjacencies and refactored a chunk of code and created a new method walkWay(). now testTargetAtDoor, testTargetsInDiningRoom, testTargetsInKetchen tests all passed. total o…
+aladdin2121
+aladdin2121
+committed
+3 days ago
+fixed logical problem in calcAdjacencies and now testAdjacenciesRooms test passes
+aladdin2121
+aladdin2121
+committed
+3 days ago
+added body to calcAdjacencies to deal with the cases of: doorway, secret passage, room center, and walkways. 2 tests passed: testAdjacencyWalkways and testTargetsInWalkway2
+aladdin2121
+aladdin2121
+committed
+3 days ago
+Commits on Oct 31, 2026
+added a boolean isSecretPass to CellBoard.java with a getter
+aladdin2121
+aladdin2121
+committed
+3 days ago
+added header to each class, and created getAdjList in Board.java
+aladdin2121
+aladdin2121
+committed
+4 days ago
+create empty BoardAdjTargetTest.java and created the envirnemnt for the project
+aladdin2121
+aladdin2121
+committed
+4 days ago
+Commits on Oct 23, 2026
+Finished off the code and got tests to work. Refactored parts of the code to be more readable. Reworked and simplified the file layout of the project.
+author
+Sophie Sengelman-Lipps
+committed
+2 weeks ago
+added room object to cellBoard.java added setter and getter, changer getRoom(boardcell in board.java, and changed the body of (if(roomMp.containskey)) in layoutconfig. Now the code passes most of t…
+aladdin2121
+aladdin2121
+committed
+2 weeks ago
+refactored room to roomMap in Board.java
+aladdin2121
+aladdin2121
+committed
+2 weeks ago
+corrected && operator in getRoom(BoardCell) in Board.java
+aladdin2121
+aladdin2121
+committed
+2 weeks ago
+created isroomcenter(), isLabel() in boardCell.java, created getName(boarCell) that overloads getName(char) in board.java, created getcentercell() and getlabelcell() and setter in room.java. added …
+aladdin2121
+aladdin2121
+committed
+2 weeks ago
+updated layoutconfig method in Board.java to set doorDirection to none the cell isnot a door. the code passed the 4th test in fileinittest
+aladdin2121
+aladdin2121
+committed
+2 weeks ago
+Add files via upload
+aladdin2121
+aladdin2121
+authored
+2 weeks ago
+Verified
+added body to layOutConfig in Board.java. Now fourDoorDirection test pass
+aladdin2121
+aladdin2121
+committed
+2 weeks ago
+created variables: isdoorway and direction in BoardCall.java and created setter and getters, updated DoorDirection by creating a default constructor and updating toString method to deal with the ca…
+aladdin2121
+aladdin2121
+committed
+2 weeks ago
+updated NUM_ROWS and NUM_COLMNS in Board.java. passed testBoardDimensions test
+aladdin2121
+aladdin2121
+committed
+2 weeks ago
+changed the constructor for Room.java, and added body to Board.java in getRoom(), initializee(), and setConfig, passed testRoomLabels test
+aladdin2121
+aladdin2121
+committed
+2 weeks ago
+Commits on Oct 22, 2026
+created enum DoorDirection
+aladdin2121
+aladdin2121
+committed
+2 weeks ago
+Commits on Oct 21, 2026
+Stop tracking Eclipse configuration files
+aladdin2121
+aladdin2121
+committed
+2 weeks ago
+create the project, board class, room class
+aladdin2121
+aladdin2121
+committed
+2 weeks ago
+Commits on Oct 19, 2026
+Merge branch 'main' of https://github.com/aladdin2121/CSIS306_Boukentar_Sengelman
+author
+Sophie Sengelman-Lipps
+committed
+2 weeks ago
+Finished off TestBoard.java and fixed broken test for LO12A
+author
+Sophie Sengelman-Lipps
+committed
+2 weeks ago
+Add files via upload
+aladdin2121
+aladdin2121
+authored
+2 weeks ago
