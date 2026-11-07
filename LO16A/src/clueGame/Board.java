@@ -12,11 +12,10 @@
  * 
  * Collaborators: None
  * 
- * Sources: googled how to parse in colors
+ * Sources: None
  */
 package clueGame;
 
-import java.awt.Color;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -26,13 +25,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
-<<<<<<< HEAD
 import java.awt.Color;
 import java.util.Collection;
 import java.util.Collections;
-=======
-import java.util.concurrent.ThreadLocalRandom;
->>>>>>> ea9e9dc11c4bd6ee04a4594461a1613c275b4981
 
 public class Board {
 
@@ -79,7 +74,6 @@ public class Board {
 
 	public void initialize() {
 		try {
-<<<<<<< HEAD
 			this.players.clear();
 			this.deck.clear();
 
@@ -87,68 +81,6 @@ public class Board {
 			loadLayoutConfig();
 			loadPlayers();
 			dealCards();
-=======
-			
-			loadSetupConfig();
-			loadLayoutConfig();
-			//setting up starting location requires the grid to be already setup, and setting up the grid requires 
-			//rooms to be already setup. So, we setup starting location of each player after both configs are setup
-			BoardCell cell = grid[person.getStartingRow()][person.getStartingCol()];
-			person.setLocation(cell);
-			BoardCell cell1 = grid[com1.getStartingRow()][com1.getStartingCol()];
-			com1.setLocation(cell1);
-			BoardCell cell2 = grid[com2.getStartingRow()][com2.getStartingCol()];
-			com2.setLocation(cell2);
-			BoardCell cell3 = grid[com3.getStartingRow()][com3.getStartingCol()];
-			com3.setLocation(cell3);
-			BoardCell cell4 = grid[com4.getStartingRow()][com4.getStartingCol()];
-			com4.setLocation(cell4);
-			BoardCell cell5 = grid[com5.getStartingRow()][com5.getStartingCol()];
-			com5.setLocation(cell5);
-			
-			List<Card> list = new ArrayList<>(deck);
-	        
-	        // Pick a random index
-			
-			Card randomElement1;
-			Card randomElement2;
-			Card randomElement3;
-			while(true) {
-				int randomIndex = ThreadLocalRandom.current().nextInt(list.size());
-				randomElement1 = list.get(randomIndex);
-				if (randomElement1.getType()==CardType.ROOM) {
-					randomIndex = ThreadLocalRandom.current().nextInt(list.size());
-					randomElement2 = list.get(randomIndex);
-				
-					if (randomElement2.getType()==CardType.PERSON) {
-						randomIndex = ThreadLocalRandom.current().nextInt(list.size());
-						randomElement3 = list.get(randomIndex);
-					
-						if (randomElement3.getType()==CardType.WEAPON) {
-							break;
-						}
-					}
-				}
-					
-			}
-			this.solution = Solution.getInstance();
-			solution.setSolution(randomElement1, randomElement2, randomElement3);
-	        deck.remove(randomElement1);
-	        deck.remove(randomElement2);
-	        deck.remove(randomElement3);
-	        System.out.println("deck: ");
-	        for(Card card: deck) {
-	        	System.out.println(card);
-	        }
-	        System.out.println("solution: ");
-	        for(Card card: solution.getSolution()) {
-	        	System.out.println(card);
-	        }
-	        
-			
-			
-			
->>>>>>> ea9e9dc11c4bd6ee04a4594461a1613c275b4981
 		} catch (FileNotFoundException | BadConfigFormatException e) {
 			System.err.println("Unable to initialize board: " + e.getMessage());
 		}
@@ -173,10 +105,7 @@ public class Board {
 				}
 
 				String[] tokens = line.split(",", -1);
-				
-				//setting up rooms and spaces
 
-<<<<<<< HEAD
 				for (int i = 0; i < tokens.length; i++) {
 					tokens[i] = tokens[i].trim();
 				}
@@ -232,94 +161,6 @@ public class Board {
 				} else {
 					throw new BadConfigFormatException("Unknown setup entry type on line " + lineNumber);
 				}
-=======
-				if (tokens.length == 3) {
-					
-					String type = tokens[0].trim();
-					String name = tokens[1].trim();
-					String symbol = tokens[2].trim();
-				
-
-					if (name.isEmpty() || symbol.length() != 1) {
-						throw new BadConfigFormatException("Invalid setup entry on line " + lineNumber);
-					}
-
-					if (!type.equalsIgnoreCase("room") && !type.equalsIgnoreCase("space")) {
-						throw new BadConfigFormatException("Unknown setup entry type on line " + lineNumber);
-					}
-				
-
-					char initial = symbol.charAt(0);
-
-					if (roomMap.containsKey(initial)) {
-						throw new BadConfigFormatException("Duplicate setup symbol: " + initial);
-					}
-
-					roomMap.put(initial, new Room(name));
-
-					if (type.equalsIgnoreCase("room")) {
-						roomInitials.add(initial);
-						Card card = new Card (CardType.ROOM, name);
-						deck.add(card);
-						
-						
-						
-					}
-				}
-				//setting up weapons
-				if (tokens.length == 2) {
-				
-					String type = tokens[0].trim();
-					String name = tokens[1].trim();
-					if (!type.equalsIgnoreCase("weapon")) {
-						throw new BadConfigFormatException("Unknown setup entry type on line "+ lineNumber);
-					}
-					Card card = new Card (CardType.WEAPON, name);
-					
-					deck.add(card);
-				}
-				//setting up Players and player card in the deck
-				if (tokens.length == 6) {
-					
-					String personToken = tokens[0].trim();
-					String name = tokens[1].trim();
-					Color color = getColor(tokens[2]);
-					String player = tokens[3].trim();
-					int row = 0;
-					int col = 0;
-					try {
-						row = Integer.parseInt(tokens[4].trim());
-						col = Integer.parseInt(tokens[5].trim());
-					}
-					catch(NumberFormatException e) {
-						System.out.println("token is not an int on line: "+ lineNumber);
-					}
-					
-					if (!personToken.equalsIgnoreCase("Person")) {
-						throw new BadConfigFormatException("Unknown setup entry type on line "+ lineNumber);
-					}
-					Card card = new Card (CardType.PERSON, name);
-					deck.add(card);
-					
-					switch(player) {
-						case "Human":
-							this.person = new Player(name, color, true, row, col); break;
-						case "Com1":
-							this.com1 = new Player(name, color, false, row, col); break;
-						case "Com2":
-							this.com2 = new Player(name, color, false, row, col); break;
-						case "Com3":
-							this.com3 = new Player(name, color, false, row, col); break;
-						case "Com4":
-							this.com4 = new Player(name, color, false, row, col); break;
-						case "Com5":
-							this.com5 = new Player(name, color, false, row, col); break;
-					}
-					
-				}
-				
-				
->>>>>>> ea9e9dc11c4bd6ee04a4594461a1613c275b4981
 			}
 		}
 
@@ -793,24 +634,6 @@ public class Board {
 
 	public Set<BoardCell> getAdjList(int row, int col) {
 		return this.grid[row][col].getAdjList();
-	}
-	private Color getColor(String colorName) {
-	    switch (colorName.trim().toLowerCase()) {
-	        case "pink":
-	            return Color.PINK;
-	        case "red":
-	            return Color.RED;
-	        case "yellow":
-	            return Color.YELLOW;
-	        case "white":
-	            return Color.WHITE;
-	        case "green":
-	            return Color.GREEN;
-	        case "blue":
-	            return Color.BLUE;
-	        default:
-	            throw new IllegalArgumentException("Unknown color: " + colorName);
-	    }
 	}
 
 	public Collection<Player> getPlayers() {

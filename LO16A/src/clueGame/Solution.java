@@ -53,7 +53,6 @@ public class Solution {
 	public Set<Card> getSolution() {
 		return this.solution;
 	}
-<<<<<<< HEAD
 
 	public Set<Card> getAnswer() {
 		return this.solution;
@@ -70,22 +69,5 @@ public class Solution {
 	public Card getWeapon() {
 		return this.weapon;
 	}
-=======
-	public void setSolution(Card room, Card person, Card weapon) {
-	    this.room = room;
-	    this.person = person;
-	    this.weapon = weapon;
-	    this.solution.clear();
-	    this.solution.add(room);
-	    this.solution.add(person);
-	    this.solution.add(weapon);
-	}
-
-	
-	
-	
-	
-	
->>>>>>> ea9e9dc11c4bd6ee04a4594461a1613c275b4981
 
 }

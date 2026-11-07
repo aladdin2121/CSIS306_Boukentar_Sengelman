@@ -1,3 +1,59 @@
+
+author
+Sophie Sengelman-Lipps
+committed
+4 minutes ago
+fixed logic problem in setting up deck and solution, now testDeck passes
+aladdin2121
+aladdin2121
+committed
+7 minutes ago
+added code that sets up answer in board.java
+aladdin2121
+aladdin2121
+committed
+16 minutes ago
+changed code inside board.java, player.java, and Cluesetup.txt to fix few minor syntax problems
+aladdin2121
+aladdin2121
+committed
+46 minutes ago
+Merge branch 'main' of https://github.com/aladdin2121/CSIS306_Boukentar_Sengelman
+aladdin2121
+aladdin2121
+committed
+1 hour ago
+added break in switch statement that switch (player) in setupconfig, and fixed type in ClueSetup.txt, and added @OverRide hashcode in Card.java
+aladdin2121
+aladdin2121
+committed
+1 hour ago
+Merge branch 'main' of https://github.com/aladdin2121/CSIS306_Boukentar_Sengelman
+author
+Sophie Sengelman-Lipps
+committed
+2 hours ago
+rewrote LO16A test
+author
+Sophie Sengelman-Lipps
+committed
+2 hours ago
+fixed syntax errors in GameSetupTests.java, added variables for deck, solution, and players to Board.java. Now, GameSetupTests.java runs but the tests fail
+aladdin2121
+aladdin2121
+committed
+3 hours ago
+created Card.java, Player.java, Solution.java, CardType.java and fixed few syntax errors in GameSetupTests.java
+aladdin2121
+aladdin2121
+committed
+18 hours ago
+Commits on Nov 5, 2026
+craeted GameSetupTests.java and created tests for human and coms setup, deck set up, and answer set up. Also, updated clueSetup.txt to include players and weapons
+aladdin2121
+aladdin2121
+committed
+2 days ago
 Commits on Nov 4, 2026
 Initialised Bools in BoardCell to false by default, created an isEmpty bool to check if a cell is marked with an X
 author
