@@ -25,6 +25,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
+import java.awt.Color;
+import java.util.Collection;
+import java.util.Collections;
 
 public class Board {
 
@@ -40,17 +43,10 @@ public class Board {
 
 	private Set<BoardCell> targets;
 	private Set<BoardCell> visited;
-	//set deck and different Player objects to public for tests
-	public Set<Card> deck;
-	
-	public Player person;
-	public Player com1;
-	public Player com2;
-	public Player com3;
-	public Player com4;
-	public Player com5;
-	
-	public Solution solution;
+
+	private List<Player> players;
+	private Set<Card> deck;
+	private Solution answer;
 
 	private static final Board theInstance = new Board();
 
@@ -61,7 +57,10 @@ public class Board {
 		this.visited = new HashSet<>();
 		this.roomMap = new HashMap<>();
 		this.roomInitials = new HashSet<>();
+
+		this.players = new ArrayList<>();
 		this.deck = new HashSet<>();
+		this.answer = Solution.getInstance();
 	}
 
 	public static Board getInstance() {
@@ -75,8 +74,13 @@ public class Board {
 
 	public void initialize() {
 		try {
+			this.players.clear();
+			this.deck.clear();
+
 			loadSetupConfig();
 			loadLayoutConfig();
+			loadPlayers();
+			dealCards();
 		} catch (FileNotFoundException | BadConfigFormatException e) {
 			System.err.println("Unable to initialize board: " + e.getMessage());
 		}
@@ -86,8 +90,9 @@ public class Board {
 
 		this.roomMap.clear();
 		this.roomInitials.clear();
+		this.deck.clear();
 
-		try (Scanner scan = new Scanner(new File("data", setupConfigFile))) {
+		try (Scanner scan = new Scanner(new File("data", this.setupConfigFile))) {
 
 			int lineNumber = 0;
 
@@ -101,37 +106,65 @@ public class Board {
 
 				String[] tokens = line.split(",", -1);
 
-				if (tokens.length != 3) {
-					throw new BadConfigFormatException("Invalid setup entry on line " + lineNumber);
+				for (int i = 0; i < tokens.length; i++) {
+					tokens[i] = tokens[i].trim();
 				}
 
-				String type = tokens[0].trim();
-				String name = tokens[1].trim();
-				String symbol = tokens[2].trim();
+				String type = tokens[0];
 
-				if (name.isEmpty() || symbol.length() != 1) {
-					throw new BadConfigFormatException("Invalid setup entry on line " + lineNumber);
-				}
+				if (type.equalsIgnoreCase("room") || type.equalsIgnoreCase("space")) {
 
-				if (!type.equalsIgnoreCase("room") && !type.equalsIgnoreCase("space")) {
+					if (tokens.length != 3) {
+						throw new BadConfigFormatException("Invalid setup entry on line " + lineNumber);
+					}
+
+					String name = tokens[1];
+					String symbol = tokens[2];
+
+					if (name.isEmpty() || symbol.length() != 1) {
+						throw new BadConfigFormatException("Invalid setup entry on line " + lineNumber);
+					}
+
+					char initial = symbol.charAt(0);
+
+					if (this.roomMap.containsKey(initial)) {
+						throw new BadConfigFormatException("Duplicate setup symbol: " + initial);
+					}
+
+					this.roomMap.put(initial, new Room(name));
+
+					if (type.equalsIgnoreCase("room")) {
+						this.roomInitials.add(initial);
+						this.deck.add(new Card(CardType.ROOM, name));
+					}
+
+				} else if (type.equalsIgnoreCase("person")) {
+
+					if (tokens.length != 5 && tokens.length != 6) {
+						throw new BadConfigFormatException("Invalid person entry on line " + lineNumber);
+					}
+
+					if (tokens[1].isEmpty() || tokens[2].isEmpty()) {
+						throw new BadConfigFormatException("Invalid person entry on line " + lineNumber);
+					}
+
+					this.deck.add(new Card(CardType.PERSON, tokens[1]));
+
+				} else if (type.equalsIgnoreCase("weapon")) {
+
+					if (tokens.length != 2 || tokens[1].isEmpty()) {
+						throw new BadConfigFormatException("Invalid weapon entry on line " + lineNumber);
+					}
+
+					this.deck.add(new Card(CardType.WEAPON, tokens[1]));
+
+				} else {
 					throw new BadConfigFormatException("Unknown setup entry type on line " + lineNumber);
-				}
-
-				char initial = symbol.charAt(0);
-
-				if (roomMap.containsKey(initial)) {
-					throw new BadConfigFormatException("Duplicate setup symbol: " + initial);
-				}
-
-				roomMap.put(initial, new Room(name));
-
-				if (type.equalsIgnoreCase("room")) {
-					roomInitials.add(initial);
 				}
 			}
 		}
 
-		if (roomMap.isEmpty()) {
+		if (this.roomMap.isEmpty()) {
 			throw new BadConfigFormatException("The setup file contains no entries.");
 		}
 	}
@@ -140,7 +173,7 @@ public class Board {
 
 		List<String[]> layout = new ArrayList<>();
 
-		try (Scanner scan = new Scanner(new File("data", layoutConfigFile))) {
+		try (Scanner scan = new Scanner(new File("data", this.layoutConfigFile))) {
 
 			while (scan.hasNextLine()) {
 				String line = scan.nextLine().trim();
@@ -163,39 +196,39 @@ public class Board {
 			throw new BadConfigFormatException("The layout file is empty.");
 		}
 
-		numRows = layout.size();
-		numColumns = layout.get(0).length;
+		this.numRows = layout.size();
+		this.numColumns = layout.get(0).length;
 
-		if (numColumns == 0) {
+		if (this.numColumns == 0) {
 			throw new BadConfigFormatException("The layout file has no columns.");
 		}
 
 		// Validate every row and cell before creating the grid.
-		for (int row = 0; row < numRows; row++) {
+		for (int row = 0; row < this.numRows; row++) {
 			String[] tokens = layout.get(row);
 
-			if (tokens.length != numColumns) {
+			if (tokens.length != this.numColumns) {
 				throw new BadConfigFormatException("Incorrect number of columns in row " + row);
 			}
 
-			for (int col = 0; col < numColumns; col++) {
+			for (int col = 0; col < this.numColumns; col++) {
 				validateCellToken(tokens[col], row, col);
 			}
 		}
 
-		targets.clear();
-		visited.clear();
+		this.targets.clear();
+		this.visited.clear();
 
-		for (Room room : roomMap.values()) {
+		for (Room room : this.roomMap.values()) {
 			room.setCenterCell(null);
 			room.setLabelCell(null);
 		}
 
-		grid = new BoardCell[numRows][numColumns];
+		this.grid = new BoardCell[this.numRows][this.numColumns];
 
 		// Create and initialize every cell.
-		for (int row = 0; row < numRows; row++) {
-			for (int col = 0; col < numColumns; col++) {
+		for (int row = 0; row < this.numRows; row++) {
+			for (int col = 0; col < this.numColumns; col++) {
 
 				String token = layout.get(row)[col];
 				char initial = token.charAt(0);
@@ -203,28 +236,28 @@ public class Board {
 				BoardCell cell = new BoardCell(row, col);
 
 				cell.setInitial(initial);
-				cell.setRoom(roomInitials.contains(initial));
+				cell.setRoom(this.roomInitials.contains(initial));
 				cell.setEmpty(initial == 'X');
 				cell.setIsDoorWay(false);
 
 				if (token.length() == 2) {
 					char marker = token.charAt(1);
 
-					if (isDirectionMarker(marker)) {
-						cell.setDirection(getDirection(marker));
+					if (this.isDirectionMarker(marker)) {
+						cell.setDirection(this.getDirection(marker));
 						cell.setIsDoorWay(true);
 					} else if (marker == '*') {
 						cell.setRoomCenter(true);
-						roomMap.get(initial).setCenterCell(cell);
+						this.roomMap.get(initial).setCenterCell(cell);
 					} else if (marker == '#') {
 						cell.setLabel(true);
-						roomMap.get(initial).setLabelCell(cell);
+						this.roomMap.get(initial).setLabelCell(cell);
 					} else {
 						cell.setSecretPassage(marker);
 					}
 				}
 
-				grid[row][col] = cell;
+				this.grid[row][col] = cell;
 			}
 		}
 
@@ -285,15 +318,179 @@ public class Board {
 		}
 	}
 
+	private void loadPlayers() throws FileNotFoundException, BadConfigFormatException {
+
+		try (Scanner scan = new Scanner(new File("data", this.setupConfigFile))) {
+
+			while (scan.hasNextLine()) {
+				String line = scan.nextLine().trim();
+
+				if (line.isEmpty() || line.startsWith("//")) {
+					continue;
+				}
+
+				String[] tokens = line.split(",", -1);
+
+				for (int i = 0; i < tokens.length; i++) {
+					tokens[i] = tokens[i].trim();
+				}
+
+				if (!tokens[0].equalsIgnoreCase("person")) {
+					continue;
+				}
+
+				String name = tokens[1];
+				Color color = getColor(tokens[2]);
+
+				boolean human;
+				int row;
+				int col;
+
+				if (tokens.length == 6) {
+					if (tokens[3].equalsIgnoreCase("human")) {
+						human = true;
+					} else if (tokens[3].equalsIgnoreCase("com") || tokens[3].equalsIgnoreCase("computer")) {
+						human = false;
+					} else {
+						throw new BadConfigFormatException("Invalid player type for " + name);
+					}
+
+					row = Integer.parseInt(tokens[4]);
+					col = Integer.parseInt(tokens[5]);
+
+				} else if (tokens.length == 5) {
+					// If no player type is provided, the first player is human.
+					human = this.players.isEmpty();
+
+					row = Integer.parseInt(tokens[3]);
+					col = Integer.parseInt(tokens[4]);
+
+				} else {
+					throw new BadConfigFormatException("Invalid person entry for " + name);
+				}
+
+				if (row < 0 || row >= this.numRows || col < 0 || col >= this.numColumns) {
+					throw new BadConfigFormatException("Invalid starting position for " + name);
+				}
+
+				BoardCell location = this.grid[row][col];
+
+				if (human) {
+					this.players.add(new HumanPlayer(name, color, location));
+				} else {
+					this.players.add(new ComputerPlayer(name, color, location));
+				}
+			}
+		}
+
+		if (!this.players.isEmpty()) {
+			int humanCount = 0;
+
+			for (Player player : this.players) {
+				if (player.isHuman()) {
+					humanCount++;
+				}
+			}
+
+			if (this.players.size() != 6 || humanCount != 1) {
+				throw new BadConfigFormatException(
+						"The setup file must contain six players and exactly one human player.");
+			}
+		}
+	}
+
+	private Color getColor(String color) throws BadConfigFormatException {
+		switch (color.toLowerCase()) {
+		case "pink":
+			return Color.PINK;
+		case "red":
+			return Color.RED;
+		case "yellow":
+			return Color.YELLOW;
+		case "white":
+			return Color.WHITE;
+		case "green":
+			return Color.GREEN;
+		case "blue":
+			return Color.BLUE;
+		default:
+			throw new BadConfigFormatException("Invalid player color: " + color);
+		}
+	}
+
+	private void dealCards() throws BadConfigFormatException {
+
+		// Older setup files used for the board tests do not contain players or weapons.
+		if (this.players.isEmpty()) {
+			return;
+		}
+
+		int roomCount = 0;
+		int personCount = 0;
+		int weaponCount = 0;
+
+		for (Card card : this.deck) {
+			if (card.getType() == CardType.ROOM) {
+				roomCount++;
+			} else if (card.getType() == CardType.PERSON) {
+				personCount++;
+			} else if (card.getType() == CardType.WEAPON) {
+				weaponCount++;
+			}
+		}
+
+		if (roomCount != 9 || personCount != 6 || weaponCount != 6) {
+			throw new BadConfigFormatException("The deck must contain nine rooms, six people, and six weapons.");
+		}
+
+		List<Card> cards = new ArrayList<>(this.deck);
+		Collections.shuffle(cards);
+
+		Card room = null;
+		Card person = null;
+		Card weapon = null;
+
+		for (Card card : cards) {
+			if (card.getType() == CardType.ROOM && room == null) {
+				room = card;
+			} else if (card.getType() == CardType.PERSON && person == null) {
+				person = card;
+			} else if (card.getType() == CardType.WEAPON && weapon == null) {
+				weapon = card;
+			}
+		}
+
+		if (room == null || person == null || weapon == null) {
+			throw new BadConfigFormatException("Unable to select the solution cards.");
+		}
+
+		this.answer.setSolution(room, person, weapon);
+
+		cards.remove(room);
+		cards.remove(person);
+		cards.remove(weapon);
+
+		int playerIndex = 0;
+
+		for (Card card : cards) {
+			this.players.get(playerIndex).updateHand(card);
+			playerIndex++;
+
+			if (playerIndex == this.players.size()) {
+				playerIndex = 0;
+			}
+		}
+	}
+
 	private void calcAdjacencies() {
 		for (int row = 0; row < numRows; row++) {
 			for (int col = 0; col < numColumns; col++) {
 
 				BoardCell cell = grid[row][col];
-				//if the cell is X then it is skipped
-				
+				// if the cell is X then it is skipped
+
 				if (cell.isEmpty()) {
-				    continue;
+					continue;
 				}
 				// if it is a room cell and not a secret passage we skip. Room center is
 				// calculated with doorway and secret passage
@@ -439,4 +636,15 @@ public class Board {
 		return this.grid[row][col].getAdjList();
 	}
 
+	public Collection<Player> getPlayers() {
+		return players;
+	}
+
+	public Collection<Card> getDeck() {
+		return deck;
+	}
+
+	public Solution getAnswer() {
+		return answer;
+	}
 }

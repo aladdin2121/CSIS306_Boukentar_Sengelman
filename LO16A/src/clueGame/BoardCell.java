@@ -23,7 +23,8 @@ public class BoardCell {
 	private int col, row;
 	private char initial, secretPass;
 	private Set<BoardCell> adjList = new HashSet<>();
-	private boolean isRoom, isOccupied = false, isDoorway = false, roomLabel = false, roomCenter = false, isSecretPass = false, isEmpty = false;
+	private boolean isRoom, isOccupied = false, isDoorway = false, roomLabel = false, roomCenter = false,
+			isSecretPass = false, isEmpty = false;
 	private DoorDirection direction = DoorDirection.NONE;
 
 	public BoardCell(int row, int col) {

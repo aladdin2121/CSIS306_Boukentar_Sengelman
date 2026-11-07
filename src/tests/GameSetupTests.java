@@ -20,8 +20,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.awt.Color;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.Collection;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -30,6 +30,8 @@ import clueGame.BoardCell;
 import clueGame.Card;
 import clueGame.CardType;
 import clueGame.Player;
+import clueGame.HumanPlayer;
+import clueGame.ComputerPlayer;
 
 class GameSetupTests {
 	// our game will always have 6 players (1 human and 5 coms)
@@ -41,7 +43,7 @@ class GameSetupTests {
 		// Board is singleton, get the only instance
 		board = Board.getInstance();
 		//set the file names to use my config files
-		board.setConfigFiles("ClueLayout306.csv", "ClueSetup306.txt");
+		board.setConfigFiles("ClueLayout.csv", "ClueSetup.txt");
 		// Initialize will load BOTH config files
 		board.initialize();
 		
@@ -200,7 +202,7 @@ class GameSetupTests {
     public void testPlayerHand() {
         BoardCell cell = board.getCell(12, 6);
 
-        Player player = new Player("John", Color.BLACK, true, cell);
+        Player player = new HumanPlayer("John", Color.BLACK, cell);
 
         Card card1 = new Card(CardType.ROOM, "Kitchen");
         Card card2 = new Card(CardType.PERSON, "Mrs. White");
