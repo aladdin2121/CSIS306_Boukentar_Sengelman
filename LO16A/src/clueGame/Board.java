@@ -105,22 +105,35 @@ public class Board {
 			while(true) {
 				int randomIndex = ThreadLocalRandom.current().nextInt(list.size());
 				randomElement1 = list.get(randomIndex);
-				if (randomElement1.getType()==CardType.ROOM)
+				if (randomElement1.getType()==CardType.ROOM) {
 					randomIndex = ThreadLocalRandom.current().nextInt(list.size());
 					randomElement2 = list.get(randomIndex);
+				
 					if (randomElement2.getType()==CardType.PERSON) {
 						randomIndex = ThreadLocalRandom.current().nextInt(list.size());
 						randomElement3 = list.get(randomIndex);
+					
 						if (randomElement3.getType()==CardType.WEAPON) {
 							break;
 						}
 					}
+				}
+					
 			}
 			this.solution = Solution.getInstance();
 			solution.setSolution(randomElement1, randomElement2, randomElement3);
 	        deck.remove(randomElement1);
 	        deck.remove(randomElement2);
 	        deck.remove(randomElement3);
+	        System.out.println("deck: ");
+	        for(Card card: deck) {
+	        	System.out.println(card);
+	        }
+	        System.out.println("solution: ");
+	        for(Card card: solution.getSolution()) {
+	        	System.out.println(card);
+	        }
+	        
 			
 			
 			
@@ -152,7 +165,7 @@ public class Board {
 				//setting up rooms and spaces
 
 				if (tokens.length == 3) {
-					System.out.println("executing inside if statement when length is 3");
+					
 					String type = tokens[0].trim();
 					String name = tokens[1].trim();
 					String symbol = tokens[2].trim();
@@ -186,19 +199,19 @@ public class Board {
 				}
 				//setting up weapons
 				if (tokens.length == 2) {
-					System.out.println("executing inside if statement when length is 2");
+				
 					String type = tokens[0].trim();
 					String name = tokens[1].trim();
 					if (!type.equalsIgnoreCase("weapon")) {
 						throw new BadConfigFormatException("Unknown setup entry type on line "+ lineNumber);
 					}
 					Card card = new Card (CardType.WEAPON, name);
-					System.out.println(card);
+					
 					deck.add(card);
 				}
 				//setting up Players and player card in the deck
 				if (tokens.length == 6) {
-					System.out.println("executing inside if statement when length is 6");
+					
 					String personToken = tokens[0].trim();
 					String name = tokens[1].trim();
 					Color color = getColor(tokens[2]);
@@ -221,17 +234,17 @@ public class Board {
 					
 					switch(player) {
 						case "Human":
-							this.person = new Player(name, color, true, row, col); System.out.println(this.person); break;
+							this.person = new Player(name, color, true, row, col); break;
 						case "Com1":
-							this.com1 = new Player(name, color, false, row, col); System.out.println(this.com1); break;
+							this.com1 = new Player(name, color, false, row, col); break;
 						case "Com2":
-							this.com2 = new Player(name, color, false, row, col); System.out.println(this.com2);break;
+							this.com2 = new Player(name, color, false, row, col); break;
 						case "Com3":
-							this.com3 = new Player(name, color, false, row, col); System.out.println(this.com3);break;
+							this.com3 = new Player(name, color, false, row, col); break;
 						case "Com4":
-							this.com4 = new Player(name, color, false, row, col); System.out.println(this.com4);break;
+							this.com4 = new Player(name, color, false, row, col); break;
 						case "Com5":
-							this.com5 = new Player(name, color, false, row, col); System.out.println(this.com5);break;
+							this.com5 = new Player(name, color, false, row, col); break;
 					}
 					
 				}

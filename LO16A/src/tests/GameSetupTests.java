@@ -119,6 +119,7 @@ class GameSetupTests {
 		assertTrue(!board.deck.contains(card6));
 		assertTrue(!board.deck.contains(card7));
 		
+		
 		assertEquals(18, board.deck.size());
 		
 	}
