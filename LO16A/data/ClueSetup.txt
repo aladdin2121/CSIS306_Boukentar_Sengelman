@@ -13,11 +13,11 @@ Space, Unused, X
 Space, Walkway, W
 // people
 Person, Professor Plum, Pink, Human, 0, 5
-Person, Miss Scarlett, Red, Com, 0, 13
-Person, Colonel Mustard, Yellow, com, 7, 23
-Person, Mrs. White, White, com, 19, 23
-Person, Mr. Green, Green, com, 23, 13
-Person, Mrs. Peacock, Blue, com, 20, 0
+Person, Miss Scarlett, Red, Com1, 0, 13
+Person, Colonel Mustard, Yellow, Com2, 7, 23
+Person, Mrs. White, White, Com3, 19, 23
+Person, Mr. Green, Green, Com4, 23, 13
+Person, Mrs. Peacock, Blue, Com5, 20, 0
 //weapons
 Weapon, Gun
 Weapon, Pipe

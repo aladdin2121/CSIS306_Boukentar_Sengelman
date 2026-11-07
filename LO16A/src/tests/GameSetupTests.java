@@ -82,7 +82,8 @@ class GameSetupTests {
 		
 		//check if the player loads cards
 		BoardCell cell1 = new BoardCell(12,6);
-		Player p1 = new Player ("john", Color.black, true, cell1);
+		Player p1 = new Player ("john", Color.black, true, 12, 6);
+		p1.setLocation(cell1);
 		
 		Card card1 = new Card(CardType.ROOM, "Kitchen");
 		Card card2 = new Card(CardType.PERSON, "Mrs. White");
@@ -146,5 +147,6 @@ class GameSetupTests {
 		assertEquals(21, allCards.size());
 		
 	}
+	
 
 }

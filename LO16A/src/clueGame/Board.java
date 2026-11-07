@@ -76,8 +76,24 @@ public class Board {
 
 	public void initialize() {
 		try {
+			
 			loadSetupConfig();
 			loadLayoutConfig();
+			//setting up starting location requires the grid to be already setup, and setting up the grid requires 
+			//rooms to be already setup. So, we setup starting location of each player after both configs are setup
+			BoardCell cell = grid[person.getStartingRow()][person.getStartingCol()];
+			person.setLocation(cell);
+			BoardCell cell1 = grid[com1.getStartingRow()][com1.getStartingCol()];
+			com1.setLocation(cell1);
+			BoardCell cell2 = grid[com2.getStartingRow()][com2.getStartingCol()];
+			com2.setLocation(cell2);
+			BoardCell cell3 = grid[com3.getStartingRow()][com3.getStartingCol()];
+			com3.setLocation(cell3);
+			BoardCell cell4 = grid[com4.getStartingRow()][com4.getStartingCol()];
+			com4.setLocation(cell4);
+			BoardCell cell5 = grid[com5.getStartingRow()][com5.getStartingCol()];
+			com5.setLocation(cell5);
+			
 		} catch (FileNotFoundException | BadConfigFormatException e) {
 			System.err.println("Unable to initialize board: " + e.getMessage());
 		}
@@ -146,13 +162,14 @@ public class Board {
 						throw new BadConfigFormatException("Unknown setup entry type on line "+ lineNumber);
 					}
 					Card card = new Card (CardType.WEAPON, name);
+					System.out.println(card);
 					deck.add(card);
 				}
 				//setting up Players and player card in the deck
 				if (tokens.length == 6) {
 					String personToken = tokens[0].trim();
 					String name = tokens[1].trim();
-					Color color = Color.decode(tokens[2].trim());
+					Color color = getColor(tokens[2]);
 					String player = tokens[3].trim();
 					int row = 0;
 					int col = 0;
@@ -169,20 +186,20 @@ public class Board {
 					}
 					Card card = new Card (CardType.PERSON, name);
 					deck.add(card);
-					BoardCell startingPoint = new BoardCell(row, col);
+					
 					switch(player) {
 						case "Human":
-							this.person = new Player(name, color, true, startingPoint); break;
+							this.person = new Player(name, color, true, row, col); System.out.println(this.person); break;
 						case "Com1":
-							this.com1 = new Player(name, color, false, startingPoint); break;
+							this.com1 = new Player(name, color, false, row, col); System.out.println(this.com1); break;
 						case "Com2":
-							this.com2 = new Player(name, color, false, startingPoint); break;
+							this.com2 = new Player(name, color, false, row, col); System.out.println(this.com2);break;
 						case "Com3":
-							this.com3 = new Player(name, color, false, startingPoint); break;
+							this.com3 = new Player(name, color, false, row, col); System.out.println(this.com3);break;
 						case "Com4":
-							this.com4 = new Player(name, color, false, startingPoint); break;
+							this.com4 = new Player(name, color, false, row, col); System.out.println(this.com4);break;
 						case "Com5":
-							this.com5 = new Player(name, color, false, startingPoint); break;
+							this.com5 = new Player(name, color, false, row, col); System.out.println(this.com5);break;
 					}
 					
 				}
@@ -497,6 +514,24 @@ public class Board {
 
 	public Set<BoardCell> getAdjList(int row, int col) {
 		return this.grid[row][col].getAdjList();
+	}
+	private Color getColor(String colorName) {
+	    switch (colorName.trim().toLowerCase()) {
+	        case "pink":
+	            return Color.PINK;
+	        case "red":
+	            return Color.RED;
+	        case "yellow":
+	            return Color.YELLOW;
+	        case "white":
+	            return Color.WHITE;
+	        case "green":
+	            return Color.GREEN;
+	        case "blue":
+	            return Color.BLUE;
+	        default:
+	            throw new IllegalArgumentException("Unknown color: " + colorName);
+	    }
 	}
 
 }

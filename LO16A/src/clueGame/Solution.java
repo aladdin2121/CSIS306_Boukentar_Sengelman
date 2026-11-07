@@ -53,6 +53,12 @@ public class Solution {
 	public Set<Card> getSolution(){
 		return this.solution;
 	}
+
+	@Override
+	public String toString() {
+		return "Solution [solution=" + solution + ", room=" + room + ", person=" + person + ", weapon=" + weapon + "]";
+	}
+	
 	
 	
 	

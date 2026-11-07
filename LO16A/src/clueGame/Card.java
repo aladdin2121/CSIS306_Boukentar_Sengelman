@@ -45,6 +45,9 @@ public class Card {
 		if (this == obj) {
 			return true;
 		}
+		if (!(obj instanceof Card)) {
+	        return false;
+	    }
 		Card card = (Card)obj;
 		if (this.cardName.equalsIgnoreCase(card.getCardName()) && this.type==card.getType()) {
 			return true;
@@ -56,7 +59,14 @@ public class Card {
 	}
 @Override
 public int hashCode() {
-    return java.util.Objects.hash(this.cardName, this.type);
+	return java.util.Objects.hash(cardName.toLowerCase(), type);
+}
+
+
+
+@Override
+public String toString() {
+	return "Card [cardName=" + cardName + ", type=" + type + "]";
 }
 	
 	

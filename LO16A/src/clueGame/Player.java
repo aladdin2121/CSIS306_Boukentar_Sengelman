@@ -25,15 +25,20 @@ public class Player {
 	private Color color;
 	private boolean isHuman;
 	private BoardCell location;
+	
+	private int startingRow;
+	private int startingCol;
+	
 	private Set<Card> hand;
 	
-	public Player(String name, Color color, boolean isHuman, BoardCell location) {
+	public Player(String name, Color color, boolean isHuman, int row, int col) {
 		super();
 		this.name = name;
 		this.color = color;
 		this.isHuman = isHuman;
-		this.location = location;
 		this.hand = new HashSet<>();
+		this.startingRow = row;
+		this.startingCol = col;
 	}
 	public String getName() {
 		return name;
@@ -47,14 +52,22 @@ public class Player {
 	public BoardCell getLocation() {
 		return location;
 	}
+	public void setLocation(BoardCell cell) {
+		this.location = cell;
+	}
 	public void setHand(Card card) {
-		if (this.hand.isEmpty()) {
-			hand.clear();
-		}
+	
 		this.hand.add(card);
 	}
 	public Set<Card> getHand(){
 		return this.hand;
+	}
+	
+	public int getStartingRow() {
+		return this.startingRow;
+	}
+	public int getStartingCol() {
+		return this.startingCol;
 	}
 	
 	
