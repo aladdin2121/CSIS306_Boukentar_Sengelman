@@ -76,9 +76,9 @@ class GameSetupTests {
 		
 		//check players starting position (picked 2 human player and player #4)
 		BoardCell cell = new BoardCell(0,5);
-		assertEquals(cell, board.person.getPosition());
+		assertEquals(cell, board.person.getLocation());
 		cell = new BoardCell(23, 13);
-		assertEquals(cell, board.com4.getPosition());
+		assertEquals(cell, board.com4.getLocation());
 		
 		//check if the player loads cards
 		BoardCell cell1 = new BoardCell(12,6);
@@ -107,7 +107,7 @@ class GameSetupTests {
 		Card card4 = new Card(CardType.ROOM, "");
 		Card card5 = new Card(CardType.ROOM, " ");
 		Card card6 = new Card(CardType.PERSON, " ");
-		Card car7 = new Card(CardType.WEAPON, " ");
+		Card card7 = new Card(CardType.WEAPON, " ");
 		
 		assertTrue(board.deck.contains(card1));
 		assertTrue(board.deck.contains(card2));
@@ -142,7 +142,7 @@ class GameSetupTests {
 		assertEquals(18, allCards.size());
 		//check if the answer cards are unique
 		
-		allCards.addAll(board.answer.getAnswer());		
+		allCards.addAll(board.solution.getSolution());		
 		assertEquals(21, allCards.size());
 		
 	}
