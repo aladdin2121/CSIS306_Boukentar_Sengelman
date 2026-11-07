@@ -40,9 +40,13 @@ public class Card {
 	}
 
 
-
-	public boolean equals(Card card) {
-		if (this.cardName.equals(card.getCardName()) && this.type==card.getType()) {
+@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		Card card = (Card)obj;
+		if (this.cardName.equalsIgnoreCase(card.getCardName()) && this.type==card.getType()) {
 			return true;
 		}
 		else {
@@ -50,5 +54,10 @@ public class Card {
 		}
 		
 	}
+@Override
+public int hashCode() {
+    return java.util.Objects.hash(this.cardName, this.type);
+}
+	
 	
 }

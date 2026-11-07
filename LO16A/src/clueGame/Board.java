@@ -12,10 +12,11 @@
  * 
  * Collaborators: None
  * 
- * Sources: None
+ * Sources: googled how to parse in colors
  */
 package clueGame;
 
+import java.awt.Color;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -86,6 +87,7 @@ public class Board {
 
 		this.roomMap.clear();
 		this.roomInitials.clear();
+		this.deck.clear();
 
 		try (Scanner scan = new Scanner(new File("data", setupConfigFile))) {
 
@@ -100,34 +102,92 @@ public class Board {
 				}
 
 				String[] tokens = line.split(",", -1);
+				
+				//setting up rooms and spaces
 
-				if (tokens.length != 3) {
-					throw new BadConfigFormatException("Invalid setup entry on line " + lineNumber);
+				if (tokens.length == 3) {
+					
+					String type = tokens[0].trim();
+					String name = tokens[1].trim();
+					String symbol = tokens[2].trim();
+				
+
+					if (name.isEmpty() || symbol.length() != 1) {
+						throw new BadConfigFormatException("Invalid setup entry on line " + lineNumber);
+					}
+
+					if (!type.equalsIgnoreCase("room") && !type.equalsIgnoreCase("space")) {
+						throw new BadConfigFormatException("Unknown setup entry type on line " + lineNumber);
+					}
+				
+
+					char initial = symbol.charAt(0);
+
+					if (roomMap.containsKey(initial)) {
+						throw new BadConfigFormatException("Duplicate setup symbol: " + initial);
+					}
+
+					roomMap.put(initial, new Room(name));
+
+					if (type.equalsIgnoreCase("room")) {
+						roomInitials.add(initial);
+						Card card = new Card (CardType.ROOM, name);
+						deck.add(card);
+						
+						
+						
+					}
 				}
-
-				String type = tokens[0].trim();
-				String name = tokens[1].trim();
-				String symbol = tokens[2].trim();
-
-				if (name.isEmpty() || symbol.length() != 1) {
-					throw new BadConfigFormatException("Invalid setup entry on line " + lineNumber);
+				//setting up weapons
+				if (tokens.length == 2) {
+					String type = tokens[0].trim();
+					String name = tokens[1].trim();
+					if (!type.equalsIgnoreCase("weapon")) {
+						throw new BadConfigFormatException("Unknown setup entry type on line "+ lineNumber);
+					}
+					Card card = new Card (CardType.WEAPON, name);
+					deck.add(card);
 				}
-
-				if (!type.equalsIgnoreCase("room") && !type.equalsIgnoreCase("space")) {
-					throw new BadConfigFormatException("Unknown setup entry type on line " + lineNumber);
+				//setting up Players and player card in the deck
+				if (tokens.length == 6) {
+					String personToken = tokens[0].trim();
+					String name = tokens[1].trim();
+					Color color = Color.decode(tokens[2].trim());
+					String player = tokens[3].trim();
+					int row = 0;
+					int col = 0;
+					try {
+						row = Integer.parseInt(tokens[4].trim());
+						col = Integer.parseInt(tokens[5].trim());
+					}
+					catch(NumberFormatException e) {
+						System.out.println("token is not an int on line: "+ lineNumber);
+					}
+					
+					if (!personToken.equalsIgnoreCase("Person")) {
+						throw new BadConfigFormatException("Unknown setup entry type on line "+ lineNumber);
+					}
+					Card card = new Card (CardType.PERSON, name);
+					deck.add(card);
+					BoardCell startingPoint = new BoardCell(row, col);
+					switch(player) {
+						case "Human":
+							this.person = new Player(name, color, true, startingPoint); break;
+						case "Com1":
+							this.com1 = new Player(name, color, false, startingPoint); break;
+						case "Com2":
+							this.com2 = new Player(name, color, false, startingPoint); break;
+						case "Com3":
+							this.com3 = new Player(name, color, false, startingPoint); break;
+						case "Com4":
+							this.com4 = new Player(name, color, false, startingPoint); break;
+						case "Com5":
+							this.com5 = new Player(name, color, false, startingPoint); break;
+					}
+					
 				}
-
-				char initial = symbol.charAt(0);
-
-				if (roomMap.containsKey(initial)) {
-					throw new BadConfigFormatException("Duplicate setup symbol: " + initial);
-				}
-
-				roomMap.put(initial, new Room(name));
-
-				if (type.equalsIgnoreCase("room")) {
-					roomInitials.add(initial);
-				}
+				
+				
 			}
 		}
 
