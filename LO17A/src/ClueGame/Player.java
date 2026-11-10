@@ -64,6 +64,10 @@ public abstract class Player {
 	public void updateSeen(Card card) {
 		seenCards.add(card);
 	}
+	
+	public Set<Card> getSeenCards() {
+	    return this.seenCards;
+	}
 
 	public String getName() {
 		return name;
@@ -96,5 +100,6 @@ public abstract class Player {
 	public void updateHand(Card card) {
 		this.hand.add(card);
 	}
+	
 
 }
