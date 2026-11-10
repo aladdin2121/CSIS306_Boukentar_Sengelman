@@ -615,7 +615,24 @@ public class Board {
 
 	
 	public Card handleSuggestion(int suggestingPlayerIndex, Solution suggestion) {
-		return new Card(CardType.WEAPON, "Knife");
+		List<Player> players = new ArrayList<>(this.players);
+
+	    int numberOfPlayers = players.size();
+
+	    for (int i = 1; i < numberOfPlayers; i++) {
+
+	        int currentIndex = (suggestingPlayerIndex + i) % numberOfPlayers;
+
+	        Player currentPlayer = players.get(currentIndex);
+
+	        Card disprovingCard = currentPlayer.disproveSuggestion(suggestion);
+
+	        if (disprovingCard != null) {
+	            return disprovingCard;
+	        }
+	    }
+
+	    return null;
 	}
 
 	public Room getRoom(char initial) {
