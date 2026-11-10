@@ -34,6 +34,11 @@ public class Solution {
 
 	}
 
+	public Solution(Card room, Card person, Card weapon) {
+        this();
+        setSolution(room, person, weapon);
+    }
+	
 	public static Solution getInstance() {
 		return theInstance;
 	}

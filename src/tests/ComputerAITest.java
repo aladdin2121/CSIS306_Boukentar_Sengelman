@@ -1,9 +1,9 @@
 
 /*
- * Class: GameSolutionTest
+ * Class: ComputerAITest
  *
  * Details:
- * Tests checking accusations, disproving suggestions, and handling suggestions.
+ * Tests computer player suggestions and movement target selection.
  *
  * Authors: Alaa Eddine Boukentar Assefar
  *          Sophie Sengelmann-Lipps
@@ -28,19 +28,15 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import clueGame.Board;
+import clueGame.BoardCell;
 import clueGame.Card;
 import clueGame.CardType;
-import clueGame.HumanPlayer;
-import clueGame.Player;
+import clueGame.ComputerPlayer;
 import clueGame.Solution;
 
-class GameSolutionTest {
+class ComputerAITest {
 
 	Board board;
-
-	private Card roomCard;
-	private Card personCard;
-	private Card weaponCard;
 
 	@BeforeEach
 	void initialization() {
@@ -51,196 +47,273 @@ class GameSolutionTest {
 		// Initialize the board and players.
 		board.initialize();
 
-		// Set a known answer so accusation tests are deterministic.
-		roomCard = new Card(CardType.ROOM, "Kitchen");
-		personCard = new Card(CardType.PERSON, "Professor Plum");
-		weaponCard = new Card(CardType.WEAPON, "Gun");
-
-		board.getAnswer().setSolution(roomCard, personCard, weaponCard);
-
-		// Clear randomly dealt hands so each test starts with known cards.
-		for (Player player : board.getPlayers()) {
-			player.getHand().clear();
-		}
-
 		assertEquals(6, board.getPlayers().size());
 	}
 
-	// Confirm that accusation with correct room, person, and weapon is correct.
+	// Confirm that comp suggestion uses the room where comp is located.
 	@Test
-	void testCheckAccusationCorrect() {
-		Solution accusation = new Solution(roomCard, personCard, weaponCard);
+	void testCreateSuggestionRoom() {
+		ComputerPlayer computer = createComputerInKitchen();
+		Solution suggestion = computer.createSuggestion();
 
-		assertTrue(board.checkAccusation(accusation));
+		Card expectedRoom = new Card(CardType.ROOM, "Kitchen");
+
+		assertEquals(expectedRoom, suggestion.getRoom());
 	}
 
-	// Confirm that accusation with wrong person is incorrect.
+	// Confirm that comp selects the only unseen person and weapon.
 	@Test
-	void testCheckAccusationWrongPerson() {
-		Card wrongPerson = new Card(CardType.PERSON, "Miss Scarlett");
+	void testCreateSuggestionOnlyUnseenCards() {
+		ComputerPlayer computer = createComputerInKitchen();
 
-		Solution accusation = new Solution(roomCard, wrongPerson, weaponCard);
+		List<Card> people = getCardsOfType(CardType.PERSON);
+		List<Card> weapons = getCardsOfType(CardType.WEAPON);
 
-		assertFalse(board.checkAccusation(accusation));
-	}
+		Card expectedPerson = people.get(0);
+		Card expectedWeapon = weapons.get(0);
 
-	// Confirm that accusation with wrong weapon is incorrect.
-	@Test
-	void testCheckAccusationWrongWeapon() {
-		Card wrongWeapon = new Card(CardType.WEAPON, "Knife");
+		Card personInHand = people.get(1);
+		Card weaponInHand = weapons.get(1);
 
-		Solution accusation = new Solution(roomCard, personCard, wrongWeapon);
-
-		assertFalse(board.checkAccusation(accusation));
-	}
-
-	// Confirm that accusation with wrong room is incorrect.
-	@Test
-	void testCheckAccusationWrongRoom() {
-		Card wrongRoom = new Card(CardType.ROOM, "Study");
-
-		Solution accusation = new Solution(wrongRoom, personCard, weaponCard);
-
-		assertFalse(board.checkAccusation(accusation));
-	}
-
-	// Confirm that player returns matching card when only one card matches.
-	@Test
-	void testDisproveSuggestionOneMatchingCard() {
-		Player player = new HumanPlayer("Test Player", Color.PINK, board.getCell(12, 6));
-
-		player.updateHand(weaponCard);
-
-		Solution suggestion = new Solution(new Card(CardType.ROOM, "Study"), new Card(CardType.PERSON, "Miss Scarlett"),
-				weaponCard);
-
-		assertEquals(weaponCard, player.disproveSuggestion(suggestion));
-	}
-
-	// Confirm that player randomly selects between multiple matching cards.
-	@Test
-	void testDisproveSuggestionMultipleMatchingCards() {
-		Player player = new HumanPlayer("Test Player", Color.PINK, board.getCell(12, 6));
-
-		Card person = new Card(CardType.PERSON, "Professor Plum");
-		Card weapon = new Card(CardType.WEAPON, "Gun");
-
-		player.updateHand(person);
-		player.updateHand(weapon);
-
-		Solution suggestion = new Solution(new Card(CardType.ROOM, "Kitchen"), person, weapon);
-
-		Set<Card> expectedCards = new HashSet<>();
-		expectedCards.add(person);
-		expectedCards.add(weapon);
-
-		Set<Card> returnedCards = new HashSet<>();
-
-		// Repeat to check that both matching cards can be selected.
-		for (int i = 0; i < 100; i++) {
-			Card returned = player.disproveSuggestion(suggestion);
-
-			assertNotNull(returned);
-			assertTrue(expectedCards.contains(returned));
-
-			returnedCards.add(returned);
-		}
-
-		assertEquals(expectedCards, returnedCards);
-	}
-
-	// Confirm that player returns null when none of their cards match.
-	@Test
-	void testDisproveSuggestionNoMatchingCards() {
-		Player player = new HumanPlayer("Test Player", Color.PINK, board.getCell(12, 6));
-
-		player.updateHand(new Card(CardType.WEAPON, "Knife"));
-
-		Solution suggestion = new Solution(new Card(CardType.ROOM, "Kitchen"),
-				new Card(CardType.PERSON, "Miss Scarlett"), new Card(CardType.WEAPON, "Gun"));
-
-		assertNull(player.disproveSuggestion(suggestion));
-	}
-
-	// Confirm that handleSuggestion returns null when nobody can disprove.
-	@Test
-	void testHandleSuggestionNoPlayerCanDisprove() {
-		Solution suggestion = new Solution(roomCard, personCard, weaponCard);
-
-		assertNull(board.handleSuggestion(0, suggestion));
-	}
-
-	// Confirm that suggesting player is not asked to disprove their own suggestion.
-	@Test
-	void testHandleSuggestionOnlySuggestingPlayerCanDisprove() {
-		List<Player> players = new ArrayList<>(board.getPlayers());
-
-		players.get(0).updateHand(roomCard);
-
-		Solution suggestion = new Solution(roomCard, personCard, weaponCard);
-
-		assertNull(board.handleSuggestion(0, suggestion));
-	}
-
-	// Confirm that human player can disprove a suggestion.
-	@Test
-	void testHandleSuggestionHumanCanDisprove() {
-		List<Player> players = new ArrayList<>(board.getPlayers());
-
-		int humanIndex = -1;
-
-		// Find the human player's position in the player list.
-		for (int i = 0; i < players.size(); i++) {
-			if (players.get(i) instanceof HumanPlayer) {
-				humanIndex = i;
-				break;
+		// Mark every other person as seen except the selected person and card in hand.
+		for (Card card : people) {
+			if (!card.equals(expectedPerson) && !card.equals(personInHand)) {
+				computer.updateSeen(card);
 			}
 		}
 
-		assertTrue(humanIndex >= 0, "A human player should be in the player list.");
+		// Mark every other weapon as seen except the selected weapon and card in hand.
+		for (Card card : weapons) {
+			if (!card.equals(expectedWeapon) && !card.equals(weaponInHand)) {
+				computer.updateSeen(card);
+			}
+		}
 
-		Player human = players.get(humanIndex);
-		human.updateHand(roomCard);
+		// These cards are in the computer's hand and should not be suggested.
+		computer.updateHand(personInHand);
+		computer.updateHand(weaponInHand);
 
-		// The player before the human suggests, so the human is checked first.
-		int suggestingPlayerIndex = (humanIndex - 1 + players.size()) % players.size();
+		Solution suggestion = computer.createSuggestion();
 
-		Solution suggestion = new Solution(roomCard, personCard, weaponCard);
-
-		assertEquals(roomCard, board.handleSuggestion(suggestingPlayerIndex, suggestion));
+		assertEquals(expectedPerson, suggestion.getPerson());
+		assertEquals(expectedWeapon, suggestion.getWeapon());
+		assertEquals(new Card(CardType.ROOM, "Kitchen"), suggestion.getRoom());
 	}
 
-	// Confirm that players are queried in turn order and the first matching player
-	// returns a card.
+	// Confirm that comp randomly selects from multiple unseen weapons.
 	@Test
-	void testHandleSuggestionPlayerOrder() {
-		List<Player> players = new ArrayList<>(board.getPlayers());
+	void testCreateSuggestionMultipleUnseenWeapons() {
+		ComputerPlayer computer = createComputerInKitchen();
 
-		Card firstPlayerCard = new Card(CardType.WEAPON, "Gun");
-		Card secondPlayerCard = new Card(CardType.PERSON, "Professor Plum");
+		List<Card> weapons = getCardsOfType(CardType.WEAPON);
 
-		players.get(1).updateHand(firstPlayerCard);
-		players.get(2).updateHand(secondPlayerCard);
+		Card weapon1 = weapons.get(0);
+		Card weapon2 = weapons.get(1);
 
-		Solution suggestion = new Solution(roomCard, personCard, weaponCard);
+		// Mark every weapon except these two as seen.
+		for (Card card : weapons) {
+			if (!card.equals(weapon1) && !card.equals(weapon2)) {
+				computer.updateSeen(card);
+			}
+		}
 
-		// Player 1 is checked before player 2.
-		assertEquals(firstPlayerCard, board.handleSuggestion(0, suggestion));
+		Set<Card> expectedWeapons = new HashSet<>();
+		expectedWeapons.add(weapon1);
+		expectedWeapons.add(weapon2);
+
+		Set<Card> returnedWeapons = new HashSet<>();
+
+		// Repeat to check that both unseen weapons can be selected.
+		for (int i = 0; i < 100; i++) {
+			Solution suggestion = computer.createSuggestion();
+
+			assertNotNull(suggestion.getWeapon());
+			assertTrue(expectedWeapons.contains(suggestion.getWeapon()));
+
+			returnedWeapons.add(suggestion.getWeapon());
+		}
+
+		assertEquals(expectedWeapons, returnedWeapons);
 	}
 
-	// Confirm that handleSuggestion skips players who cannot disprove.
+	// Confirm that comp randomly selects from multiple unseen people.
 	@Test
-	void testHandleSuggestionSkipsPlayersWithoutMatchingCards() {
-		List<Player> players = new ArrayList<>(board.getPlayers());
+	void testCreateSuggestionMultipleUnseenPeople() {
+		ComputerPlayer computer = createComputerInKitchen();
 
-		// Player 1 has no matching cards.
-		// Player 2 has a matching person card.
-		players.get(2).updateHand(personCard);
+		List<Card> people = getCardsOfType(CardType.PERSON);
 
-		Solution suggestion = new Solution(roomCard, personCard, weaponCard);
+		Card person1 = people.get(0);
+		Card person2 = people.get(1);
 
-		// Player 1 is checked first, but player 2 should be able to disprove.
-		assertEquals(personCard, board.handleSuggestion(0, suggestion));
+		// Mark every person except these two as seen.
+		for (Card card : people) {
+			if (!card.equals(person1) && !card.equals(person2)) {
+				computer.updateSeen(card);
+			}
+		}
+
+		Set<Card> expectedPeople = new HashSet<>();
+		expectedPeople.add(person1);
+		expectedPeople.add(person2);
+
+		Set<Card> returnedPeople = new HashSet<>();
+
+		// Repeat to check that both unseen people can be selected.
+		for (int i = 0; i < 100; i++) {
+			Solution suggestion = computer.createSuggestion();
+
+			assertNotNull(suggestion.getPerson());
+			assertTrue(expectedPeople.contains(suggestion.getPerson()));
+
+			returnedPeople.add(suggestion.getPerson());
+		}
+
+		assertEquals(expectedPeople, returnedPeople);
+	}
+
+	// Confirm that comp selects randomly from available targets when no rooms are
+	// available.
+	@Test
+	void testSelectTargetNoRooms() {
+		ComputerPlayer computer = createComputerInKitchen();
+
+		List<BoardCell> walkways = findTwoWalkways();
+
+		Set<BoardCell> targets = new HashSet<>();
+		targets.add(walkways.get(0));
+		targets.add(walkways.get(1));
+
+		Set<BoardCell> selectedTargets = new HashSet<>();
+
+		// Repeat to check that both available targets can be selected.
+		for (int i = 0; i < 100; i++) {
+			BoardCell selected = computer.selectTarget(targets);
+
+			assertNotNull(selected);
+			assertTrue(targets.contains(selected));
+
+			selectedTargets.add(selected);
+		}
+
+		assertEquals(targets, selectedTargets);
+	}
+
+	// Confirm that comp selects an unseen room when one is available.
+	@Test
+	void testSelectTargetUnseenRoom() {
+		ComputerPlayer computer = createComputerInKitchen();
+
+		BoardCell kitchen = board.getRoom('K').getCenterCell();
+		BoardCell walkway = findTwoWalkways().get(0);
+
+		Set<BoardCell> targets = new HashSet<>();
+		targets.add(kitchen);
+		targets.add(walkway);
+
+		// The computer has not seen the Kitchen card.
+		assertEquals(kitchen, computer.selectTarget(targets));
+	}
+
+	// Confirm that comp selects randomly from available targets when the room has
+	// been seen.
+	@Test
+	void testSelectTargetSeenRoom() {
+		ComputerPlayer computer = createComputerInKitchen();
+
+		BoardCell kitchen = board.getRoom('K').getCenterCell();
+		BoardCell walkway = findTwoWalkways().get(0);
+
+		// Mark the Kitchen card as seen.
+		computer.updateSeen(new Card(CardType.ROOM, "Kitchen"));
+
+		Set<BoardCell> targets = new HashSet<>();
+		targets.add(kitchen);
+		targets.add(walkway);
+
+		Set<BoardCell> selectedTargets = new HashSet<>();
+
+		// Both the room and walkway should be possible selections.
+		for (int i = 0; i < 100; i++) {
+			BoardCell selected = computer.selectTarget(targets);
+
+			assertNotNull(selected);
+			assertTrue(targets.contains(selected));
+
+			selectedTargets.add(selected);
+		}
+
+		assertEquals(targets, selectedTargets);
+	}
+
+	// Confirm that comp randomly selects from multiple unseen rooms.
+	@Test
+	void testSelectTargetMultipleUnseenRooms() {
+		ComputerPlayer computer = createComputerInKitchen();
+
+		BoardCell kitchen = board.getRoom('K').getCenterCell();
+		BoardCell study = board.getRoom('S').getCenterCell();
+
+		Set<BoardCell> targets = new HashSet<>();
+		targets.add(kitchen);
+		targets.add(study);
+
+		Set<BoardCell> selectedTargets = new HashSet<>();
+
+		// Both rooms are unseen, so either should be a valid selection.
+		for (int i = 0; i < 100; i++) {
+			BoardCell selected = computer.selectTarget(targets);
+
+			assertNotNull(selected);
+			assertTrue(targets.contains(selected));
+
+			selectedTargets.add(selected);
+		}
+
+		assertEquals(targets, selectedTargets);
+	}
+
+	// Create a computer player whose current location is in the Kitchen.
+	private ComputerPlayer createComputerInKitchen() {
+		BoardCell kitchen = board.getRoom('K').getCenterCell();
+
+		return new ComputerPlayer("Test Computer", Color.YELLOW, kitchen);
+	}
+
+	// Return all cards of a particular type from the complete deck.
+	private List<Card> getCardsOfType(CardType type) {
+		List<Card> cards = new ArrayList<>();
+
+		for (Card card : board.getDeck()) {
+			if (card.getType() == type) {
+				cards.add(card);
+			}
+		}
+
+		return cards;
+	}
+
+	// Find two walkway cells for target selection tests.
+	private List<BoardCell> findTwoWalkways() {
+		List<BoardCell> walkways = new ArrayList<>();
+
+		for (int row = 0; row < board.getNumRows(); row++) {
+			for (int col = 0; col < board.getNumColumns(); col++) {
+				BoardCell cell = board.getCell(row, col);
+
+				if (cell.getInitial() == 'W') {
+					walkways.add(cell);
+				}
+
+				if (walkways.size() == 2) {
+					return walkways;
+				}
+			}
+		}
+
+		assertTrue(walkways.size() >= 2, "The board must contain at least two walkway cells for these tests.");
+
+		return walkways;
 	}
 
 }

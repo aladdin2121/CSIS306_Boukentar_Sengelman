@@ -27,6 +27,7 @@ public abstract class Player {
 	private boolean isHuman;
 	private BoardCell location;
 	private Set<Card> hand;
+	private Set<Card> seenCards = new HashSet<>();
 
 	public Player(String name, Color color, boolean isHuman, BoardCell location) {
 		super();
@@ -35,6 +36,16 @@ public abstract class Player {
 		this.isHuman = isHuman;
 		this.location = location;
 		this.hand = new HashSet<>();
+	}
+
+	// stub
+	public Card disproveSuggestion(Solution suggestion) {
+		return new Card(CardType.WEAPON, "Knife");
+	}
+
+	// basic, incomplete implementation
+	public void updateSeen(Card card) {
+		seenCards.add(card);
 	}
 
 	public String getName() {

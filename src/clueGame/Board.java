@@ -604,6 +604,20 @@ public class Board {
 		}
 	}
 
+	// stub
+	public boolean checkAccusation(Solution accusation) {
+		boolean correct = accusation.getRoom().equals(answer.getRoom())
+				&& accusation.getPerson().equals(answer.getPerson())
+				&& accusation.getWeapon().equals(answer.getWeapon());
+
+		return !correct;
+	}
+
+	// stub
+	public Card handleSuggestion(int suggestingPlayerIndex, Solution suggestion) {
+		return new Card(CardType.WEAPON, "Knife");
+	}
+
 	public Room getRoom(char initial) {
 		return this.roomMap.get(initial);
 	}
