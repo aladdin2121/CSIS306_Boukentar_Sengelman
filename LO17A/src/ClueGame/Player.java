@@ -18,7 +18,9 @@
 package clueGame;
 
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public abstract class Player {
@@ -40,7 +42,22 @@ public abstract class Player {
 
 	// stub
 	public Card disproveSuggestion(Solution suggestion) {
-		return new Card(CardType.WEAPON, "Knife");
+		List<Card> matchingCards = new ArrayList<>();
+
+	    for (Card card : suggestion.getAnswer()) {
+
+	        if (hand.contains(card)) {
+	            matchingCards.add(card);
+	        }
+	    }
+
+	    if (matchingCards.isEmpty()) {
+	        return null;
+	    }
+
+	    int randomIndex = (int) (Math.random() * matchingCards.size());
+
+	    return matchingCards.get(randomIndex);
 	}
 
 	// basic, incomplete implementation
