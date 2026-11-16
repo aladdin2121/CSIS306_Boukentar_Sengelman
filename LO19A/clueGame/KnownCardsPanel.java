@@ -138,6 +138,21 @@ public class KnownCardsPanel extends JPanel {
 
         return matchingCards;
     }
+    public void refresh(Collection<Card> handCards, Map<Card, Color> seenCards) {
+    	this.removeAll();
+    	
+    	peoplePanel = createCategoryPanel("People", CardType.PERSON, handCards, seenCards);
+        roomsPanel = createCategoryPanel("Rooms", CardType.ROOM, handCards, seenCards);
+        weaponsPanel = createCategoryPanel("Weapons", CardType.WEAPON, handCards, seenCards);
+
+        add(peoplePanel);
+        add(roomsPanel);
+        add(weaponsPanel);     
+        revalidate();
+        repaint();
+        
+    	
+    }
 
     /**
      * Main to test the panel.
@@ -166,6 +181,18 @@ public class KnownCardsPanel extends JPanel {
 
             seenCards.put(
                     new Card(CardType.PERSON, "Miss Scarlett"), Color.GREEN);
+            
+            // Create the known cards panel.
+            KnownCardsPanel panel = new KnownCardsPanel(handCards, seenCards);
+            // Create the frame.
+            JFrame frame = new JFrame("Known Cards");
+
+            frame.setContentPane(new JScrollPane(panel));
+            frame.setSize(220, 700);
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.setVisible(true);
+            
+            //add more card
 
             seenCards.put(
                     new Card(CardType.ROOM, "Hall"), Color.YELLOW);
@@ -181,17 +208,11 @@ public class KnownCardsPanel extends JPanel {
 
             seenCards.put(
                     new Card(CardType.WEAPON, "Dagger"), Color.PINK);
+            //update the panel
+            panel.refresh(handCards, seenCards);
+            
 
-            // Create the known cards panel.
-            KnownCardsPanel panel = new KnownCardsPanel(handCards, seenCards);
-
-            // Create the frame.
-            JFrame frame = new JFrame("Known Cards");
-
-            frame.setContentPane(new JScrollPane(panel));
-            frame.setSize(220, 700);
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.setVisible(true);
+            
 
         });
     }
