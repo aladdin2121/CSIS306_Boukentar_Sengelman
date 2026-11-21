@@ -661,4 +661,7 @@ public class Board {
 	public Solution getAnswer() {
 		return answer;
 	}
+	public BoardCell[][] getBoardGrid (){
+		return this.grid;
+	}
 }

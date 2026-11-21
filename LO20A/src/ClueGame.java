@@ -14,14 +14,28 @@
  * 
  * Sources: None
  */
-import javax.swing.JPanel;
-
-public class BoardPanel extends JPanel{
-
-}
 
 import javax.swing.JFrame;
 
 public class ClueGame extends JFrame{
+	public ClueGame() {
+		Board board = Board.getInstance();
+
+	    board.setConfigFiles("ClueLayout.csv", "ClueSetup.txt");
+	    board.initialize();
+
+	    BoardPanel newBoard = new BoardPanel();
+	    add(newBoard);
+
+	    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+	    pack();
+	    setLocationRelativeTo(null);
+	}
+	
+	public static void main (String[] arg) {
+		ClueGame game = new ClueGame();
+		game.setVisible(true);
+	}
 
 }
