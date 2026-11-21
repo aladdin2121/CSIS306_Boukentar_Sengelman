@@ -13,7 +13,7 @@
  * Sources: googled enum functions
  */
 
-
+package clueGame;
 
 public enum DoorDirection { UP('^'), DOWN ('v'), LEFT ('<'), RIGHT ('>'), NONE;
 	private final char sign;

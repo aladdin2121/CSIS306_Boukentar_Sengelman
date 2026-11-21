@@ -14,6 +14,7 @@
  * 
  * Sources: None
  */
+
 package clueGame;
 
 import java.io.File;
@@ -604,18 +605,56 @@ public class Board {
 		}
 	}
 
-	// stub
+	// Check whether an accusation matches the solution.
 	public boolean checkAccusation(Solution accusation) {
+
+		if (accusation == null) {
+			return false;
+		}
+
 		boolean correct = accusation.getRoom().equals(answer.getRoom())
 				&& accusation.getPerson().equals(answer.getPerson())
 				&& accusation.getWeapon().equals(answer.getWeapon());
 
-		return !correct;
+		return correct;
 	}
 
-	// stub
+	// Check whether another player can disprove a suggestion.
 	public Card handleSuggestion(int suggestingPlayerIndex, Solution suggestion) {
-		return new Card(CardType.WEAPON, "Knife");
+
+		int numberOfPlayers = players.size();
+
+		if (suggestion == null || suggestingPlayerIndex < 0 || suggestingPlayerIndex >= numberOfPlayers) {
+			return null;
+		}
+
+		// Start with the player after the suggesting player.
+		for (int i = 1; i < numberOfPlayers; i++) {
+
+			int currentIndex = (suggestingPlayerIndex + i) % numberOfPlayers;
+
+			Player currentPlayer = players.get(currentIndex);
+
+			Card disprovingCard = currentPlayer.disproveSuggestion(suggestion);
+
+			// Return the first card that disproves the suggestion.
+			if (disprovingCard != null) {
+				return disprovingCard;
+			}
+		}
+
+		return null;
+	}
+
+	public Player getHumanPlayer() {
+
+		for (Player player : players) {
+			if (player.isHuman()) {
+				return player;
+			}
+		}
+
+		return null;
 	}
 
 	public Room getRoom(char initial) {
@@ -660,5 +699,9 @@ public class Board {
 
 	public Solution getAnswer() {
 		return answer;
+	}
+
+	public BoardCell[][] getBoardGrid() {
+		return this.grid;
 	}
 }

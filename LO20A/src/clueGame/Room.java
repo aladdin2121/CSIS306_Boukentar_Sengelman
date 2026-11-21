@@ -14,6 +14,8 @@
  * Sources: None
  */
 
+package clueGame;
+
 public class Room {
 
 	private String name;

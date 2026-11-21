@@ -13,6 +13,7 @@
  * 
  * Sources: None
  */
+
 package clueGame;
 
 public enum CardType {

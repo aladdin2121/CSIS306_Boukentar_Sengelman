@@ -1,3 +1,4 @@
+
 /*
  * Class: KnownCardsPanel
  *
@@ -15,7 +16,9 @@
  *
  * Sources: None
  */
+
 package clueGame;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.util.ArrayList;
@@ -38,162 +41,175 @@ import javax.swing.border.TitledBorder;
 
 public class KnownCardsPanel extends JPanel {
 
-    // Panels for each card category.
-    private JPanel peoplePanel;
-    private JPanel roomsPanel;
-    private JPanel weaponsPanel;
+	// Panels for each card category.
+	private JPanel peoplePanel;
+	private JPanel roomsPanel;
+	private JPanel weaponsPanel;
 
-    /**
-     * Constructor for the panel.
-     *
-     * @param handCards cards in the player's hand
-     * @param seenCards cards seen and the colors of the players who showed them
-     */
-    public KnownCardsPanel(Collection<Card> handCards, Map<Card, Color> seenCards) {
+	/**
+	 * Constructor for the panel.
+	 *
+	 * @param handCards cards in the player's hand
+	 * @param seenCards cards seen and the colors of the players who showed them
+	 */
+	public KnownCardsPanel(Collection<Card> handCards, Map<Card, Color> seenCards) {
 
-        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-        // Create the three card category panels.
-        peoplePanel = createCategoryPanel("People", CardType.PERSON, handCards, seenCards);
-        roomsPanel = createCategoryPanel("Rooms", CardType.ROOM, handCards, seenCards);
-        weaponsPanel = createCategoryPanel("Weapons", CardType.WEAPON, handCards, seenCards);
+		// Create the three card category panels.
+		peoplePanel = createCategoryPanel("People", CardType.PERSON, handCards, seenCards);
+		roomsPanel = createCategoryPanel("Rooms", CardType.ROOM, handCards, seenCards);
+		weaponsPanel = createCategoryPanel("Weapons", CardType.WEAPON, handCards, seenCards);
 
-        add(peoplePanel);
-        add(roomsPanel);
-        add(weaponsPanel);
-    }
+		add(peoplePanel);
+		add(roomsPanel);
+		add(weaponsPanel);
+	}
 
-    // Create a panel for a particular card category.
-    private JPanel createCategoryPanel(String title, CardType type,
-            Collection<Card> handCards, Map<Card, Color> seenCards) {
+	// Create a panel for a particular card category.
+	private JPanel createCategoryPanel(String title, CardType type, Collection<Card> handCards,
+			Map<Card, Color> seenCards) {
 
-        JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        panel.setBorder(new TitledBorder(new EtchedBorder(), title));
-        panel.setAlignmentX(LEFT_ALIGNMENT);
+		JPanel panel = new JPanel();
 
-        // Display cards in the player's hand.
-        panel.add(new JLabel("In Hand:"));
+		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+		panel.setBorder(new TitledBorder(new EtchedBorder(), title));
+		panel.setAlignmentX(LEFT_ALIGNMENT);
 
-        List<Card> hand = getCardsOfType(handCards, type);
+		// Display cards in the player's hand.
+		panel.add(new JLabel("In Hand:"));
 
-        if (hand.isEmpty()) {
-            panel.add(createCardField("None", Color.WHITE));
-        } else {
-            for (Card card : hand) {
-                panel.add(createCardField(card.getCardName(), Color.WHITE));
-            }
-        }
+		List<Card> hand = getCardsOfType(handCards, type);
 
-        panel.add(Box.createVerticalStrut(5));
+		if (hand.isEmpty()) {
+			panel.add(createCardField("None", Color.WHITE));
+		} else {
+			for (Card card : hand) {
+				panel.add(createCardField(card.getCardName(), Color.WHITE));
+			}
+		}
 
-        // Display cards the player has seen.
-        panel.add(new JLabel("Seen:"));
+		panel.add(Box.createVerticalStrut(5));
 
-        List<Card> seen = getCardsOfType(seenCards.keySet(), type);
+		// Display cards the player has seen.
+		panel.add(new JLabel("Seen:"));
 
-        if (seen.isEmpty()) {
-            panel.add(createCardField("None", Color.WHITE));
-        } else {
-            for (Card card : seen) {
-                Color cardColor = seenCards.get(card);
+		List<Card> seen = getCardsOfType(seenCards.keySet(), type);
 
-                if (cardColor == null) {
-                    cardColor = Color.LIGHT_GRAY;
-                }
+		if (seen.isEmpty()) {
+			panel.add(createCardField("None", Color.WHITE));
+		} else {
+			for (Card card : seen) {
 
-                panel.add(createCardField(card.getCardName(), cardColor));
-            }
-        }
+				Color cardColor = seenCards.get(card);
 
-        return panel;
-    }
+				if (cardColor == null) {
+					cardColor = Color.LIGHT_GRAY;
+				}
 
-    // Create a non-editable text field displaying a card.
-    private JTextField createCardField(String cardName, Color color) {
+				panel.add(createCardField(card.getCardName(), cardColor));
+			}
+		}
 
-        JTextField field = new JTextField(cardName, 12);
+		return panel;
+	}
 
-        field.setEditable(false);
-        field.setBackground(color);
-        field.setOpaque(true);
-        field.setMaximumSize(new Dimension(Integer.MAX_VALUE,
-                field.getPreferredSize().height));
+	// Create a non-editable text field displaying a card.
+	private JTextField createCardField(String cardName, Color color) {
 
-        return field;
-    }
+		JTextField field = new JTextField(cardName, 12);
 
-    // Return cards of a particular type, sorted alphabetically.
-    private List<Card> getCardsOfType(Collection<Card> cards, CardType type) {
+		field.setEditable(false);
+		field.setBackground(color);
+		field.setOpaque(true);
 
-        List<Card> matchingCards = new ArrayList<>();
+		field.setMaximumSize(new Dimension(Integer.MAX_VALUE, field.getPreferredSize().height));
 
-        for (Card card : cards) {
-            if (card.getType() == type) {
-                matchingCards.add(card);
-            }
-        }
+		return field;
+	}
 
-        matchingCards.sort(Comparator.comparing(Card::getCardName));
+	// Return cards of a particular type, sorted alphabetically.
+	private List<Card> getCardsOfType(Collection<Card> cards, CardType type) {
 
-        return matchingCards;
-    }
+		List<Card> matchingCards = new ArrayList<>();
 
-    /**
-     * Main to test the panel.
-     *
-     * @param args
-     */
-    public static void main(String[] args) {
+		for (Card card : cards) {
+			if (card.getType() == type) {
+				matchingCards.add(card);
+			}
+		}
 
-        SwingUtilities.invokeLater(() -> {
+		matchingCards.sort(Comparator.comparing(Card::getCardName));
 
-            // Create sample cards in the player's hand.
-            List<Card> handCards = new ArrayList<>();
+		return matchingCards;
+	}
 
-            handCards.add(new Card(CardType.PERSON, "Professor Plum"));
-            handCards.add(new Card(CardType.PERSON, "Miss Scarlett"));
-            handCards.add(new Card(CardType.WEAPON, "Wrench"));
+	// Refresh the panels when the player's known cards change.
+	public void refresh(Collection<Card> handCards, Map<Card, Color> seenCards) {
 
-            // Create sample seen cards and their corresponding player colors.
-            Map<Card, Color> seenCards = new HashMap<>();
+		this.removeAll();
 
-            seenCards.put(
-                    new Card(CardType.PERSON, "Colonel Mustard"), Color.YELLOW);
+		peoplePanel = createCategoryPanel("People", CardType.PERSON, handCards, seenCards);
+		roomsPanel = createCategoryPanel("Rooms", CardType.ROOM, handCards, seenCards);
+		weaponsPanel = createCategoryPanel("Weapons", CardType.WEAPON, handCards, seenCards);
 
-            seenCards.put(
-                    new Card(CardType.PERSON, "Mrs. White"), Color.PINK);
+		add(peoplePanel);
+		add(roomsPanel);
+		add(weaponsPanel);
 
-            seenCards.put(
-                    new Card(CardType.PERSON, "Miss Scarlett"), Color.GREEN);
+		revalidate();
+		repaint();
+	}
 
-            seenCards.put(
-                    new Card(CardType.ROOM, "Hall"), Color.YELLOW);
+	/**
+	 * Main to test the panel.
+	 *
+	 * @param args
+	 */
+	public static void main(String[] args) {
 
-            seenCards.put(
-                    new Card(CardType.ROOM, "Ballroom"), Color.PINK);
+		SwingUtilities.invokeLater(() -> {
 
-            seenCards.put(
-                    new Card(CardType.ROOM, "Kitchen"), Color.GREEN);
+			// Create sample cards in the player's hand.
+			List<Card> handCards = new ArrayList<>();
 
-            seenCards.put(
-                    new Card(CardType.WEAPON, "Lead Pipe"), Color.YELLOW);
+			handCards.add(new Card(CardType.PERSON, "Professor Plum"));
+			handCards.add(new Card(CardType.PERSON, "Miss Scarlett"));
+			handCards.add(new Card(CardType.WEAPON, "Wrench"));
 
-            seenCards.put(
-                    new Card(CardType.WEAPON, "Dagger"), Color.PINK);
+			// Create sample seen cards and their corresponding player colors.
+			Map<Card, Color> seenCards = new HashMap<>();
 
-            // Create the known cards panel.
-            KnownCardsPanel panel = new KnownCardsPanel(handCards, seenCards);
+			seenCards.put(new Card(CardType.PERSON, "Colonel Mustard"), Color.YELLOW);
 
-            // Create the frame.
-            JFrame frame = new JFrame("Known Cards");
+			seenCards.put(new Card(CardType.PERSON, "Mrs. White"), Color.PINK);
 
-            frame.setContentPane(new JScrollPane(panel));
-            frame.setSize(220, 700);
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.setVisible(true);
+			// Create the known cards panel.
+			KnownCardsPanel panel = new KnownCardsPanel(handCards, seenCards);
 
-        });
-    }
+			// Create the frame.
+			JFrame frame = new JFrame("Known Cards");
+
+			frame.setContentPane(new JScrollPane(panel));
+			frame.setSize(220, 700);
+			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			frame.setVisible(true);
+
+			// Add more cards.
+			seenCards.put(new Card(CardType.ROOM, "Hall"), Color.YELLOW);
+
+			seenCards.put(new Card(CardType.ROOM, "Ballroom"), Color.PINK);
+
+			seenCards.put(new Card(CardType.ROOM, "Kitchen"), Color.GREEN);
+
+			seenCards.put(new Card(CardType.WEAPON, "Lead Pipe"), Color.YELLOW);
+
+			seenCards.put(new Card(CardType.WEAPON, "Dagger"), Color.PINK);
+
+			// Update the panel.
+			panel.refresh(handCards, seenCards);
+
+		});
+	}
 
 }

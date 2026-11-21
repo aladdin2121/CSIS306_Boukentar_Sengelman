@@ -20,6 +20,10 @@ package clueGame;
 import java.awt.Color;
 import java.util.HashSet;
 import java.util.Set;
+import java.awt.Graphics2D;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public abstract class Player {
 	private String name;
@@ -38,14 +42,41 @@ public abstract class Player {
 		this.hand = new HashSet<>();
 	}
 
-	// stub
+	// Check whether the player can disprove a suggestion.
 	public Card disproveSuggestion(Solution suggestion) {
-		return new Card(CardType.WEAPON, "Knife");
+
+	    if (suggestion == null) {
+	        return null;
+	    }
+
+	    List<Card> matchingCards = new ArrayList<>();
+
+	    // Find all cards in the player's hand that match the suggestion.
+	    for (Card card : hand) {
+	        if (suggestion.getSolution().contains(card)) {
+	            matchingCards.add(card);
+	        }
+	    }
+
+	    // Return null if no cards match.
+	    if (matchingCards.isEmpty()) {
+	        return null;
+	    }
+
+	    // Randomly select a card if multiple cards match.
+	    Collections.shuffle(matchingCards);
+
+	    return matchingCards.get(0);
 	}
 
-	// basic, incomplete implementation
+	// Add a card to the player's seen cards.
 	public void updateSeen(Card card) {
-		seenCards.add(card);
+	    seenCards.add(card);
+	}
+
+	// Return all cards the player has seen.
+	public Set<Card> getSeenCards() {
+	    return seenCards;
 	}
 
 	public String getName() {
@@ -80,4 +111,26 @@ public abstract class Player {
 		this.hand.add(card);
 	}
 
+	// Draw the player at their current location on the board.
+	public void draw(Graphics2D g, int cellSize, int xOffset, int yOffset) {
+
+	    if (location == null) {
+	        return;
+	    }
+
+	    int diameter = cellSize * 3 / 4;
+
+	    int x = xOffset + location.getCol() * cellSize
+	            + (cellSize - diameter) / 2;
+
+	    int y = yOffset + location.getRow() * cellSize
+	            + (cellSize - diameter) / 2;
+
+	    g.setColor(color);
+	    g.fillOval(x, y, diameter, diameter);
+
+	    // Draw a black outline around the player.
+	    g.setColor(Color.BLACK);
+	    g.drawOval(x, y, diameter, diameter);
+	}
 }

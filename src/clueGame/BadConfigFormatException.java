@@ -1,3 +1,4 @@
+
 /*
  * Class: BadConfigFormatException
  * 
@@ -12,6 +13,7 @@
  * 
  * Sources: None
  */
+
 package clueGame;
 
 public class BadConfigFormatException extends Exception{

@@ -14,6 +14,7 @@
  * Sources: None
  */
 
+package clueGame;
 
 import java.awt.Color;
 
