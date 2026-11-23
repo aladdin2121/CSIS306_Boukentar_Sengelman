@@ -166,6 +166,7 @@ public class KnownCardsPanel extends JPanel {
 	 *
 	 * @param args
 	 */
+	/*
 	public static void main(String[] args) {
 
 		SwingUtilities.invokeLater(() -> {
@@ -211,5 +212,6 @@ public class KnownCardsPanel extends JPanel {
 
 		});
 	}
+	*/
 
 }

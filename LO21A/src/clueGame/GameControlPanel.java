@@ -20,10 +20,14 @@ package clueGame;
 
 import java.awt.Color;
 import java.awt.GridLayout;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.geom.Ellipse2D;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
@@ -60,7 +64,7 @@ public class GameControlPanel extends JPanel {
 	/**
 	 * Constructor for the panel, it does 90% of the work.
 	 */
-	public GameControlPanel() {
+	public GameControlPanel(Board board) {
 
 		setLayout(new GridLayout(2, 1));
 
@@ -94,6 +98,7 @@ public class GameControlPanel extends JPanel {
 
 		// Next button
 		next = new JButton("NEXT!");
+		next.addActionListener(e -> board.nextPlayer());
 
 		// Populate the top panel
 		playerPanel.add(playerSmallerPanel);
@@ -148,6 +153,7 @@ public class GameControlPanel extends JPanel {
 	 *
 	 * @param args
 	 */
+	/*
 	public static void main(String[] args) {
 
 		GameControlPanel panel = new GameControlPanel();
@@ -166,5 +172,6 @@ public class GameControlPanel extends JPanel {
 		panel.setGuess("I have no guess!");
 		panel.setGuessResult("So you have nothing?");
 	}
+	*/
 
 }

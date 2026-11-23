@@ -58,6 +58,9 @@ public class Board {
 	private GameControlPanel controlPanel;
 
 	private static final Board theInstance = new Board();
+	
+	//die
+	int roll;
 
 	private Board() {
 		super();
@@ -670,7 +673,7 @@ public class Board {
 				break;
 			}
 		}
-
+		updateOccupiedCells();
 		processCurrentTurn();
 	}
 
@@ -708,7 +711,7 @@ public class Board {
 		Player currentPlayer = players.get(currentPlayerIndex);
 
 		// Roll the die.
-		int roll = new Random().nextInt(6) + 1;
+		roll = new Random().nextInt(6) + 1;
 
 		// Update the control panel.
 		if (controlPanel != null) {
@@ -717,7 +720,7 @@ public class Board {
 
 		// Calculate the possible movement targets.
 		calcTargets(currentPlayer.getLocation(), roll);
-
+		
 		// Highlight all possible targets.
 		updateTargetHighlights();
 
@@ -772,6 +775,7 @@ public class Board {
 
 		for (BoardCell cell : targets) {
 			cell.setTarget(true);
+			
 		}
 	}
 
@@ -836,6 +840,45 @@ public class Board {
 
 		return null;
 	}
+	//
+	public void handleBoardClick(int row, int col) {
+
+	    if (currentPlayerIndex < 0 || row < 0 || row >= numRows || col < 0 || col >= numColumns) {
+	        return;
+	    }
+
+	    Player current = players.get(currentPlayerIndex);
+
+	    //if it is not the human's turn, ignore clicks
+	    if (!current.isHuman() || humanTurnFinished) {
+	        JOptionPane.showMessageDialog(boardPanel, "It is not time to move.");
+	        return;
+	    }
+
+	    BoardCell clicked = grid[row][col];
+
+	    //by clicking on any cell in a room, that room center is selected
+	    if (clicked.isRoom()) {
+	        Room room = getRoom(clicked);
+	        if (room != null && room.getCenterCell() != null) {
+	            clicked = room.getCenterCell();
+	        }
+	    }
+
+	    //invalid target
+	    if (!targets.contains(clicked)) {
+	        JOptionPane.showMessageDialog(boardPanel, "That is not a valid target. Please try again.");
+	        return;
+	    }
+
+	    //valid target
+	    movePlayer(current, clicked);
+	    clearTargetHighlights();
+
+	    if (boardPanel != null) {
+	        boardPanel.repaint();
+	    }
+	}
 
 	// Set the board panel.
 	public void setBoardPanel(BoardPanel panel) {
@@ -893,5 +936,8 @@ public class Board {
 
 	public BoardCell[][] getBoardGrid() {
 		return this.grid;
+	}
+	public int getRoll() {
+		return this.roll;
 	}
 }

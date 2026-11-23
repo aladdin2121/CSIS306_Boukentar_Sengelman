@@ -22,6 +22,7 @@ import java.awt.Color;
 import java.util.Collections;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 
 public class ClueGame extends JFrame {
@@ -35,6 +36,7 @@ public class ClueGame extends JFrame {
 
 		// Add the board panel.
 		BoardPanel newBoard = new BoardPanel();
+		board.setBoardPanel(newBoard); 
 		add(newBoard, BorderLayout.CENTER);
 
 		// Add the known cards panel.
@@ -44,9 +46,10 @@ public class ClueGame extends JFrame {
 		add(new JScrollPane(knownCards), BorderLayout.EAST);
 
 		// Add the game control panel.
-		GameControlPanel controlPanel = new GameControlPanel();
-
-		controlPanel.setTurn(board.getHumanPlayer(), 2);
+		GameControlPanel controlPanel = new GameControlPanel(board);
+		
+		board.setControlPanel(controlPanel);
+		//controlPanel.setTurn(board.getHumanPlayer(), board.getRoll());
 
 		add(controlPanel, BorderLayout.SOUTH);
 
@@ -64,7 +67,13 @@ public class ClueGame extends JFrame {
 		board.initialize();
 
 		ClueGame game = new ClueGame();
+		
 		game.setVisible(true);
+		JOptionPane.showMessageDialog(game, "You are "+board.getHumanPlayer().getName()+", \n"+
+									" can you find the solution the computer players?", 
+									"Welcome to clue",JOptionPane.INFORMATION_MESSAGE);
+		
+		board.startGame();
 	}
 
 }

@@ -18,12 +18,15 @@
 package clueGame;
 
 import java.awt.Color;
+
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.JPanel;
 
@@ -37,6 +40,34 @@ public class BoardPanel extends JPanel {
 
 		setBackground(Color.BLACK);
 		setPreferredSize(new Dimension(650, 650));
+		
+		addMouseListener(new MouseAdapter() {
+	        @Override
+	        public void mousePressed(MouseEvent e) {
+
+	            int rows = board.getNumRows();
+	            int columns = board.getNumColumns();
+
+	            if (rows <= 0 || columns <= 0) {
+	                return;
+	            }
+
+	            int cellSize = getCellSize();
+	            if (cellSize <= 0) {
+	                return;
+	            }
+
+	            int x = e.getX() - getXOffset(cellSize);
+	            int y = e.getY() - getYOffset(cellSize);
+
+	            // Ignore clicks outside the grid.
+	            if (x < 0 || y < 0 || x >= columns * cellSize || y >= rows * cellSize) {
+	                return;
+	            }
+
+	            board.handleBoardClick(y / cellSize, x / cellSize);
+	        }
+	    });
 	}
 
 	@Override
@@ -57,19 +88,15 @@ public class BoardPanel extends JPanel {
 		}
 
 		// Calculate cell size based on the panel dimensions.
-		int cellSize = Math.min(getWidth() / columns, getHeight() / rows);
+		int cellSize = getCellSize();
 
 		if (cellSize <= 0) {
-			g2.dispose();
-			return;
+		    g2.dispose();
+		    return;
 		}
 
-		// Center the board in the panel.
-		int boardWidth = columns * cellSize;
-		int boardHeight = rows * cellSize;
-
-		int xOffset = (getWidth() - boardWidth) / 2;
-		int yOffset = (getHeight() - boardHeight) / 2;
+		int xOffset = getXOffset(cellSize);
+		int yOffset = getYOffset(cellSize);
 
 		// Draw each board cell.
 		for (int row = 0; row < rows; row++) {
@@ -137,6 +164,17 @@ public class BoardPanel extends JPanel {
 				}
 			}
 		}
+	}
+	private int getCellSize() {
+	    return Math.min(getWidth() / board.getNumColumns(), getHeight() / board.getNumRows());
+	}
+
+	private int getXOffset(int cellSize) {
+	    return (getWidth() - board.getNumColumns() * cellSize) / 2;
+	}
+
+	private int getYOffset(int cellSize) {
+	    return (getHeight() - board.getNumRows() * cellSize) / 2;
 	}
 
 }
