@@ -1,0 +1,70 @@
+
+/*
+ * Class: ClueGame
+ *
+ * Details:
+ * the main frame of the game
+ *
+ * Authors: Alaa Eddine Boukentar Assefar
+ *          Sophie SengelmanLipps
+ *
+ * Start Date: 11/20/2026
+ *
+ * Collaborators: None
+ *
+ * Sources: None
+ */
+
+package clueGame;
+
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.util.Collections;
+
+import javax.swing.JFrame;
+import javax.swing.JScrollPane;
+
+public class ClueGame extends JFrame {
+
+	public ClueGame() {
+
+		Board board = Board.getInstance();
+
+		setTitle("Clue Game");
+		setLayout(new BorderLayout());
+
+		// Add the board panel.
+		BoardPanel newBoard = new BoardPanel();
+		add(newBoard, BorderLayout.CENTER);
+
+		// Add the known cards panel.
+		KnownCardsPanel knownCards = new KnownCardsPanel(board.getHumanPlayer().getHand(),
+				Collections.<Card, Color>emptyMap());
+
+		add(new JScrollPane(knownCards), BorderLayout.EAST);
+
+		// Add the game control panel.
+		GameControlPanel controlPanel = new GameControlPanel();
+
+		controlPanel.setTurn(board.getHumanPlayer(), 2);
+
+		add(controlPanel, BorderLayout.SOUTH);
+
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+		setSize(1100, 700);
+		setLocationRelativeTo(null);
+	}
+
+	public static void main(String[] arg) {
+
+		Board board = Board.getInstance();
+
+		board.setConfigFiles("ClueLayout.csv", "ClueSetup.txt");
+		board.initialize();
+
+		ClueGame game = new ClueGame();
+		game.setVisible(true);
+	}
+
+}
