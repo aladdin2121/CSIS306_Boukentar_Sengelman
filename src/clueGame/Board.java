@@ -29,6 +29,8 @@ import java.util.Set;
 import java.awt.Color;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Random;
+import javax.swing.JOptionPane;
 
 public class Board {
 
@@ -48,6 +50,12 @@ public class Board {
 	private List<Player> players;
 	private Set<Card> deck;
 	private Solution answer;
+
+	private int currentPlayerIndex = -1;
+	private boolean humanTurnFinished = true;
+
+	private BoardPanel boardPanel;
+	private GameControlPanel controlPanel;
 
 	private static final Board theInstance = new Board();
 
@@ -646,6 +654,178 @@ public class Board {
 		return null;
 	}
 
+	// Start the first player's turn.
+	public void startGame() {
+
+		if (players.isEmpty()) {
+			return;
+		}
+
+		currentPlayerIndex = 0;
+
+		// Start with the human player.
+		for (int i = 0; i < players.size(); i++) {
+			if (players.get(i).isHuman()) {
+				currentPlayerIndex = i;
+				break;
+			}
+		}
+
+		processCurrentTurn();
+	}
+
+	// Advance to the next player.
+	public void nextPlayer() {
+
+		if (currentPlayerIndex < 0) {
+			startGame();
+			return;
+		}
+
+		Player currentPlayer = players.get(currentPlayerIndex);
+
+		// Make sure the human player has finished moving.
+		if (currentPlayer.isHuman() && !humanTurnFinished) {
+
+			JOptionPane.showMessageDialog(boardPanel, "Please select a valid target before ending your turn.");
+
+			return;
+		}
+
+		// Advance to the next player.
+		currentPlayerIndex++;
+
+		if (currentPlayerIndex >= players.size()) {
+			currentPlayerIndex = 0;
+		}
+
+		processCurrentTurn();
+	}
+
+	// Process the current player's turn.
+	private void processCurrentTurn() {
+
+		Player currentPlayer = players.get(currentPlayerIndex);
+
+		// Roll the die.
+		int roll = new Random().nextInt(6) + 1;
+
+		// Update the control panel.
+		if (controlPanel != null) {
+			controlPanel.setTurn(currentPlayer, roll);
+		}
+
+		// Calculate the possible movement targets.
+		calcTargets(currentPlayer.getLocation(), roll);
+
+		// Highlight all possible targets.
+		updateTargetHighlights();
+
+		// Handle the human player's turn.
+		if (currentPlayer.isHuman()) {
+
+			humanTurnFinished = false;
+
+			if (targets.isEmpty()) {
+				humanTurnFinished = true;
+				clearTargetHighlights();
+
+				JOptionPane.showMessageDialog(boardPanel, "There are no available moves. Press NEXT! to continue.");
+			}
+
+		}
+
+		// Handle the computer player's turn.
+		else {
+
+			humanTurnFinished = true;
+
+			if (!targets.isEmpty()) {
+
+				ComputerPlayer computer = (ComputerPlayer) currentPlayer;
+
+				BoardCell selectedTarget = computer.selectTarget(targets);
+
+				if (selectedTarget != null) {
+					movePlayer(currentPlayer, selectedTarget);
+				}
+			}
+
+			// Clear the highlights after the computer moves.
+			clearTargetHighlights();
+		}
+
+		// Redraw the board.
+		if (boardPanel != null) {
+			boardPanel.repaint();
+		}
+	}
+
+	// Mark all available movement targets on the board.
+	private void updateTargetHighlights() {
+
+		for (int row = 0; row < numRows; row++) {
+			for (int col = 0; col < numColumns; col++) {
+				grid[row][col].setTarget(false);
+			}
+		}
+
+		for (BoardCell cell : targets) {
+			cell.setTarget(true);
+		}
+	}
+
+	// Remove all movement target highlights.
+	private void clearTargetHighlights() {
+
+		for (int row = 0; row < numRows; row++) {
+			for (int col = 0; col < numColumns; col++) {
+				grid[row][col].setTarget(false);
+			}
+		}
+
+		targets.clear();
+	}
+	
+	// Move a player to a selected board cell.
+	private void movePlayer(Player player, BoardCell destination) {
+
+	    if (destination == null) {
+	        return;
+	    }
+
+	    player.setLocation(destination);
+
+	    // Update which walkway cells are occupied.
+	    updateOccupiedCells();
+
+	    // A human player's movement is now finished.
+	    if (player.isHuman()) {
+	        humanTurnFinished = true;
+	    }
+	}
+
+	// Update the occupied status of the board cells.
+	private void updateOccupiedCells() {
+
+	    // Clear the previous occupied status.
+	    for (int row = 0; row < numRows; row++) {
+	        for (int col = 0; col < numColumns; col++) {
+	            grid[row][col].setOccupied(false);
+	        }
+	    }
+
+	    // Mark the walkway cells occupied by players.
+	    for (Player player : players) {
+
+	        BoardCell location = player.getLocation();
+
+	        if (location != null && !location.isRoom()) {
+	            location.setOccupied(true);
+	        }
+	    }
+	}
+
 	public Player getHumanPlayer() {
 
 		for (Player player : players) {
@@ -655,6 +835,16 @@ public class Board {
 		}
 
 		return null;
+	}
+
+	// Set the board panel.
+	public void setBoardPanel(BoardPanel panel) {
+		this.boardPanel = panel;
+	}
+
+	// Set the game control panel.
+	public void setControlPanel(GameControlPanel panel) {
+		this.controlPanel = panel;
 	}
 
 	public Room getRoom(char initial) {

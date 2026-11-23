@@ -28,6 +28,7 @@ public class BoardCell {
 
 	private int col, row;
 	private char initial, secretPass;
+	private boolean isTarget = false;
 	private Set<BoardCell> adjList = new HashSet<>();
 
 	private boolean isRoom, isOccupied = false, isDoorway = false, roomLabel = false, roomCenter = false,
@@ -133,6 +134,16 @@ public class BoardCell {
 		return this.isEmpty;
 	}
 
+	// Set whether this cell is a possible movement target.
+	public void setTarget(boolean target) {
+		this.isTarget = target;
+	}
+
+	// Return whether this cell is a possible movement target.
+	public boolean isTarget() {
+		return this.isTarget;
+	}
+
 	// Draw this cell on the game board.
 	public void draw(Graphics2D g, int x, int y, int cellSize) {
 
@@ -168,6 +179,16 @@ public class BoardCell {
 		// Draw the doorway indicator.
 		if (isDoorway()) {
 			drawDoor(g, x, y, cellSize);
+		}
+
+		// Highlight cells that are possible movement targets.
+		if (isTarget()) {
+			g.setColor(Color.GREEN);
+			g.setStroke(new BasicStroke(2));
+
+			g.drawRect(x + 2, y + 2, cellSize - 4, cellSize - 4);
+
+			g.setStroke(new BasicStroke(1));
 		}
 	}
 

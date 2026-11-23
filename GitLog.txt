@@ -1,240 +1,185 @@
-
+Commits on Nov 20, 2026
+finished LO20A and implemented incomplete stubs
 author
 Sophie Sengelman-Lipps
 committed
-4 minutes ago
+1 minute ago
+created code to load the board and the players
+aladdin2121
+aladdin2121
+committed
+2 hours ago
+created the main frame including ClueGame.java, and BoardPanel.java
+aladdin2121
+aladdin2121
+committed
+9 hours ago
+Commits on Nov 16, 2026
+created refresh method that updates the panels and refresh the screen in KnownCardsPanel.java
+aladdin2121
+aladdin2121
+committed
+5 days ago
+Commits on Nov 15, 2026
+made KnownCardsPanel and created the layout
+author
+Sophie Sengelman-Lipps
+committed
+5 days ago
+fixed button colors
+author
+Sophie Sengelman-Lipps
+committed
+last week
+Commits on Nov 12, 2026
+created 1st worknig version
+aladdin2121
+aladdin2121
+committed
+last week
+Commits on Nov 9, 2026
+added body to createSuggestion(), and selectTarget() in ComputerPlayer.java. All tests in ComputerAITest passed
+aladdin2121
+aladdin2121
+committed
+2 weeks ago
+added body to handleSuggestion() in board.java now all the tests in GameSolutionTest pass
+aladdin2121
+aladdin2121
+committed
+2 weeks ago
+added body to disproveSuggestion() in Player.java. now all tests in GameSolutionTest pass except testHandleSuggestionOnlySuggestingPlayerCan(), testHandleSuggestionSkipsPlayersWithouMatch(), testHa…
+aladdin2121
+aladdin2121
+committed
+2 weeks ago
+updated checkAccusation() in board.java now testCheckAccusationwrongroom(), testCHeckAccusationCorrect(), testCheckAccusationWrongPerson(), and testCheckAccusationWrongWeapon() pass in GameSolution…
+aladdin2121
+aladdin2121
+committed
+2 weeks ago
+Added failing stubs
+author
+Sophie Sengelman-Lipps
+committed
+2 weeks ago
+wrote tests for 17A
+author
+Sophie Sengelman-Lipps
+committed
+2 weeks ago
+Commits on Nov 6, 2026
+updated setup txt
+author
+Sophie Sengelman-Lipps
+committed
+2 weeks ago
+finished LO16A
+author
+Sophie Sengelman-Lipps
+committed
+2 weeks ago
+finished LO16A
+author
+Sophie Sengelman-Lipps
+committed
+2 weeks ago
 fixed logic problem in setting up deck and solution, now testDeck passes
 aladdin2121
 aladdin2121
 committed
-7 minutes ago
+2 weeks ago
 added code that sets up answer in board.java
 aladdin2121
 aladdin2121
 committed
-16 minutes ago
+2 weeks ago
 changed code inside board.java, player.java, and Cluesetup.txt to fix few minor syntax problems
 aladdin2121
 aladdin2121
 committed
-46 minutes ago
+2 weeks ago
 Merge branch 'main' of https://github.com/aladdin2121/CSIS306_Boukentar_Sengelman
 aladdin2121
 aladdin2121
 committed
-1 hour ago
+2 weeks ago
 added break in switch statement that switch (player) in setupconfig, and fixed type in ClueSetup.txt, and added @OverRide hashcode in Card.java
 aladdin2121
 aladdin2121
 committed
-1 hour ago
+2 weeks ago
 Merge branch 'main' of https://github.com/aladdin2121/CSIS306_Boukentar_Sengelman
 author
 Sophie Sengelman-Lipps
 committed
-2 hours ago
+2 weeks ago
 rewrote LO16A test
 author
 Sophie Sengelman-Lipps
 committed
-2 hours ago
+2 weeks ago
 fixed syntax errors in GameSetupTests.java, added variables for deck, solution, and players to Board.java. Now, GameSetupTests.java runs but the tests fail
 aladdin2121
 aladdin2121
 committed
-3 hours ago
+2 weeks ago
 created Card.java, Player.java, Solution.java, CardType.java and fixed few syntax errors in GameSetupTests.java
 aladdin2121
 aladdin2121
 committed
-18 hours ago
+2 weeks ago
 Commits on Nov 5, 2026
 craeted GameSetupTests.java and created tests for human and coms setup, deck set up, and answer set up. Also, updated clueSetup.txt to include players and weapons
 aladdin2121
 aladdin2121
 committed
-2 days ago
+2 weeks ago
 Commits on Nov 4, 2026
 Initialised Bools in BoardCell to false by default, created an isEmpty bool to check if a cell is marked with an X
 author
 Sophie Sengelman-Lipps
 committed
-1 minute ago
+2 weeks ago
 Commits on Nov 2, 2026
 deleted an initialization of direction to NONE inside loadLayoutConfig in Board.java. We already set direction to NONE by default in BoardCell.java
 aladdin2121
 aladdin2121
 committed
-yesterday
+3 weeks ago
 Merge branch 'main' of https://github.com/aladdin2121/CSIS306_Boukentar_Sengelman
 aladdin2121
 aladdin2121
 committed
-yesterday
+3 weeks ago
 in all the classes, I added this to the variables
 aladdin2121
 aladdin2121
 committed
-yesterday
+3 weeks ago
 Merge branch 'main' of https://github.com/aladdin2121/CSIS306_Boukentar_Sengelman
 author
 Sophie Sengelman-Lipps
 committed
-yesterday
+3 weeks ago
 file location issue
 author
 Sophie Sengelman-Lipps
 committed
-yesterday
+3 weeks ago
 resolved merge conflict
 aladdin2121
 aladdin2121
 committed
-yesterday
+3 weeks ago
 renamed walkway method to a more descriptive method called walWayAdjCalc, and inside the else if statement for doorway adjacency calculation took off walkWayAdjCalc from each else if statement and …
 aladdin2121
 aladdin2121
 committed
-yesterday
+3 weeks ago
 Commits on Nov 1, 2026
 finished board.java and fixed it to run other tests correctly again
 author
 Sophie Sengelman-Lipps
 committed
-3 days ago
-wrote BoardAdjTargetTest
-author
-Sophie Sengelman-Lipps
-committed
-3 days ago
-added a condition that checks if the cell is not a room to findTargets() in Board.java. Now all the tests in BoardAdjTargetTest306 passes)
-aladdin2121
-aladdin2121
-committed
-3 days ago
-fixed logic in isDoor condition in calcAdjacencies and now all tests passed except testTargetOccupied
-aladdin2121
-aladdin2121
-committed
-3 days ago
-changed logic inside calcAdjacencies and refactored a chunk of code and created a new method walkWay(). now testTargetAtDoor, testTargetsInDiningRoom, testTargetsInKetchen tests all passed. total o…
-aladdin2121
-aladdin2121
-committed
-3 days ago
-fixed logical problem in calcAdjacencies and now testAdjacenciesRooms test passes
-aladdin2121
-aladdin2121
-committed
-3 days ago
-added body to calcAdjacencies to deal with the cases of: doorway, secret passage, room center, and walkways. 2 tests passed: testAdjacencyWalkways and testTargetsInWalkway2
-aladdin2121
-aladdin2121
-committed
-3 days ago
-Commits on Oct 31, 2026
-added a boolean isSecretPass to CellBoard.java with a getter
-aladdin2121
-aladdin2121
-committed
-3 days ago
-added header to each class, and created getAdjList in Board.java
-aladdin2121
-aladdin2121
-committed
-4 days ago
-create empty BoardAdjTargetTest.java and created the envirnemnt for the project
-aladdin2121
-aladdin2121
-committed
-4 days ago
-Commits on Oct 23, 2026
-Finished off the code and got tests to work. Refactored parts of the code to be more readable. Reworked and simplified the file layout of the project.
-author
-Sophie Sengelman-Lipps
-committed
-2 weeks ago
-added room object to cellBoard.java added setter and getter, changer getRoom(boardcell in board.java, and changed the body of (if(roomMp.containskey)) in layoutconfig. Now the code passes most of t…
-aladdin2121
-aladdin2121
-committed
-2 weeks ago
-refactored room to roomMap in Board.java
-aladdin2121
-aladdin2121
-committed
-2 weeks ago
-corrected && operator in getRoom(BoardCell) in Board.java
-aladdin2121
-aladdin2121
-committed
-2 weeks ago
-created isroomcenter(), isLabel() in boardCell.java, created getName(boarCell) that overloads getName(char) in board.java, created getcentercell() and getlabelcell() and setter in room.java. added …
-aladdin2121
-aladdin2121
-committed
-2 weeks ago
-updated layoutconfig method in Board.java to set doorDirection to none the cell isnot a door. the code passed the 4th test in fileinittest
-aladdin2121
-aladdin2121
-committed
-2 weeks ago
-Add files via upload
-aladdin2121
-aladdin2121
-authored
-2 weeks ago
-Verified
-added body to layOutConfig in Board.java. Now fourDoorDirection test pass
-aladdin2121
-aladdin2121
-committed
-2 weeks ago
-created variables: isdoorway and direction in BoardCall.java and created setter and getters, updated DoorDirection by creating a default constructor and updating toString method to deal with the ca…
-aladdin2121
-aladdin2121
-committed
-2 weeks ago
-updated NUM_ROWS and NUM_COLMNS in Board.java. passed testBoardDimensions test
-aladdin2121
-aladdin2121
-committed
-2 weeks ago
-changed the constructor for Room.java, and added body to Board.java in getRoom(), initializee(), and setConfig, passed testRoomLabels test
-aladdin2121
-aladdin2121
-committed
-2 weeks ago
-Commits on Oct 22, 2026
-created enum DoorDirection
-aladdin2121
-aladdin2121
-committed
-2 weeks ago
-Commits on Oct 21, 2026
-Stop tracking Eclipse configuration files
-aladdin2121
-aladdin2121
-committed
-2 weeks ago
-create the project, board class, room class
-aladdin2121
-aladdin2121
-committed
-2 weeks ago
-Commits on Oct 19, 2026
-Merge branch 'main' of https://github.com/aladdin2121/CSIS306_Boukentar_Sengelman
-author
-Sophie Sengelman-Lipps
-committed
-2 weeks ago
-Finished off TestBoard.java and fixed broken test for LO12A
-author
-Sophie Sengelman-Lipps
-committed
-2 weeks ago
-Add files via upload
-aladdin2121
-aladdin2121
-authored
-2 weeks ago
+3 weeks ago
